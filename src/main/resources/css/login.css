@@ -1,0 +1,31 @@
+/* General settings for transparent text fields with border color #4A5A47 */
+.text-field,
+.password-field,
+.text-field:focused,
+.password-field:focused {
+    -fx-background-color: transparent; /* Make the text field background transparent */
+    -fx-border-color: #4A5A47; /* Set the border color */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-radius: 4px; /* Slightly rounded corners for smoother appearance */
+    -fx-text-fill: ivory; /* Text color for readability */
+    -fx-font-size: 14px; /* Font size */
+    -fx-prompt-text-fill: #4A5A4788; /* Prompt text color with transparency */
+}
+
+/* Style for buttons */
+.jfx-button {
+    -fx-background-color: #4A5A47; /* Button background */
+    -fx-text-fill: ivory; /* Button text color */
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* Style for checkboxes */
+.jfx-check-box {
+    -fx-text-fill: ivory;
+}
+
+
+
+

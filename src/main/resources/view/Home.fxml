@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.StackedAreaChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #1A1A1A;" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.home.HomeFormController">
+   <children>
+      <TabPane prefHeight="787.0" prefWidth="1534.0" style="-fx-background-color: #1A1A1A;" styleClass="mainTab" stylesheets="@../css/tabPane.css" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab styleClass="mainTab-tab" text="Dashboard">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1031.0" prefWidth="1822.0" stylesheets="@../css/Home.css">
+                     <children>
+                        <AnchorPane fx:id="pane2ndImgs" layoutX="806.0" layoutY="297.0" prefHeight="410.0" prefWidth="654.0" style="-fx-background-color: #1A1A1A;">
+                           <children>
+                              <ImageView fitHeight="395.0" fitWidth="194.0" layoutX="9.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/image4.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="397.0" fitWidth="205.0" layoutX="227.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/image5.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="400.0" fitWidth="203.0" layoutX="447.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/image3.png" />
+                                 </image>
+                              </ImageView>
+                              <Circle fill="#3b3b3b" layoutX="9.0" layoutY="402.0" opacity="0.75" radius="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <ImageView fitHeight="44.0" fitWidth="42.0" layoutX="-12.0" layoutY="381.0" onMouseClicked="#btnOnActionPrevious" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/previeous.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="pane1stImgs" layoutX="789.0" layoutY="312.0" prefHeight="416.0" prefWidth="672.0" style="-fx-background-color: #1A1A1A;">
+                           <children>
+                              <ImageView fx:id="imgBestSelling3" fitHeight="394.0" fitWidth="406.0" layoutX="30.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
+                                 <image>
+                                    <Image url="@../img/image1.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="imgBestSelling2" fitHeight="394.0" fitWidth="406.0" layoutX="249.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
+                                 <image>
+                                    <Image url="@../img/image2.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="imgBestSelling1" fitHeight="445.0" fitWidth="191.0" layoutX="466.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
+                                 <image>
+                                    <Image url="@../img/image.png" />
+                                 </image>
+                              </ImageView>
+                              <Circle fill="#3b3b3b" layoutX="656.0" layoutY="390.0" opacity="0.75" radius="22.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <ImageView fitHeight="44.0" fitWidth="42.0" layoutX="635.0" layoutY="369.0" onMouseClicked="#btnOnClickActionNext" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/nxt.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="lblPane1" layoutX="88.0" layoutY="57.0" prefHeight="161.0" prefWidth="510.0">
+                           <children>
+                              <Label fx:id="lbltopic1" prefHeight="82.0" prefWidth="482.0" text="Sharp Looks for" textFill="IVORY">
+                                 <font>
+                                    <Font name="Trebuchet MS" size="70.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbltopic2" layoutY="78.0" prefHeight="82.0" prefWidth="329.0" text="Bold Men" textFill="#5b7355">
+                                 <font>
+                                    <Font name="Trebuchet MS Bold" size="70.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="lblPane02" layoutX="780.0" layoutY="105.0" prefHeight="98.0" prefWidth="690.0" stylesheets="@../css/Home.css">
+                           <children>
+                              <Circle fill="IVORY" layoutX="552.0" layoutY="79.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <ImageView fitHeight="19.0" fitWidth="26.0" layoutX="542.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/contactIcons.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="570.0" layoutY="72.0" text="ContactAdmin" textFill="IVORY" underline="true">
+                                 <font>
+                                    <Font name="Trebuchet MS" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="7.0" prefHeight="42.0" prefWidth="682.0" text="Every sale is a chance to show our customers how much they matter.Handle each  " textFill="IVORY">
+                                 <font>
+                                    <Font name="Trebuchet MS" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="60.0" layoutY="31.0" prefHeight="42.0" prefWidth="619.0" text="transaction with care to ensure their experience is seamless and satisfying." textFill="IVORY">
+                                 <font>
+                                    <Font name="Trebuchet MS" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fx:id="rectangle1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="357.0" layoutX="94.0" layoutY="353.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="388.0" />
+                         <Rectangle fx:id="rectangle2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="440.0" layoutX="495.0" layoutY="272.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="245.0" />
+                        <StackedAreaChart fx:id="StackedAreaChart" alternativeColumnFillVisible="true" layoutX="87.0" layoutY="373.0" prefHeight="326.0" prefWidth="387.0" title="Total Sales">
+                           <xAxis>
+                              <NumberAxis fx:id="StackedAreaChartXAxis" autoRanging="false" minorTickCount="10" side="BOTTOM" tickLabelGap="2.0" upperBound="10.0" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis fx:id="StackedAreaChartYAxis" autoRanging="false" minorTickCount="1" side="LEFT" />
+                           </yAxis>
+                        </StackedAreaChart>
+                        <Label layoutX="819.0" layoutY="269.0" text="Top Selling Products :" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="100.0" layoutY="276.0" mnemonicParsing="false" onAction="#btnOnclickActionPlaceOrder" prefHeight="38.0" prefWidth="174.0" style="-fx-background-color: #5b7355;" text="Place Order -&gt;" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="293.0" layoutY="276.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="174.0" text="Reports">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="508.0" layoutY="278.0" text="Sales Overview :">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fx:id="rectangle3" arcHeight="5.0" arcWidth="5.0" fill="#fafafa" height="92.0" layoutX="508.0" layoutY="334.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle-1" width="219.0" />
+                        <Rectangle fx:id="rectangle4" arcHeight="5.0" arcWidth="5.0" fill="#fafafa" height="92.0" layoutX="508.0" layoutY="462.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle-1" width="219.0" />
+                        <Rectangle fx:id="rectangle5" arcHeight="5.0" arcWidth="5.0" fill="#fafafa" height="92.0" layoutX="508.0" layoutY="590.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle-1" width="219.0" />
+                        <ImageView fitHeight="40.0" fitWidth="50.0" layoutX="524.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/customerIcon.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="596.0" layoutY="473.0" prefHeight="46.0" prefWidth="64.0" text="220" textFill="#37ff00">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="574.0" layoutY="519.0" text="Total Customers">
+                           <font>
+                              <Font name="Trebuchet MS" size="16.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="40.0" fitWidth="50.0" layoutX="524.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/ordersIcon.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="596.0" layoutY="346.0" prefHeight="46.0" prefWidth="64.0" text="300" textFill="#ffce00">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="584.0" layoutY="392.0" text="Total Orders">
+                           <font>
+                              <Font name="Trebuchet MS" size="16.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="40.0" fitWidth="50.0" layoutX="521.0" layoutY="615.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/supplierIcon.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="606.0" layoutY="601.0" prefHeight="46.0" prefWidth="47.0" text="60" textFill="#00e3ff">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="581.0" layoutY="647.0" text="Total Suppliers">
+                           <font>
+                              <Font name="Trebuchet MS" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab styleClass="mainTab-tab" text="Reports">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <PieChart layoutX="889.0" layoutY="139.0" prefHeight="394.0" prefWidth="500.0" />
+                        <BarChart layoutX="146.0" layoutY="124.0" prefHeight="430.0" prefWidth="580.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS" size="14.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="1354.0" layoutY="646.0" mnemonicParsing="false" style="-fx-background-color: #5b7355;" text="Print" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Button>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+          <Tab styleClass="mainTab-tab" text="Inventory Management">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox layoutX="199.0" layoutY="149.0" prefHeight="55.0" prefWidth="338.0" stylesheets="@../css/style.css">
+                           <children>
+                              <TextField fx:id="txtProductId" layoutX="5.0" layoutY="10.0" prefHeight="32.0" prefWidth="215.0" promptText="Enter Product Id" styleClass="transparent">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" onAction="#btnOnClickActionProductSearch" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <styleClass>
+                              <String fx:value="search-box" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                        </HBox>
+                        <Line endX="220.20001220703125" endY="-1.52587890625E-5" layoutX="310.0" layoutY="222.0" startX="-100.0" stroke="IVORY" strokeWidth="3.0" />
+                        <TextField fx:id="txtProductName" layoutX="209.0" layoutY="246.0" prefHeight="32.0" prefWidth="320.0" promptText="Product Name" />
+                        <ComboBox fx:id="cmbProductCategory" layoutX="209.0" layoutY="296.0" prefHeight="30.0" prefWidth="152.0" promptText="Select Category" />
+                        <TextField fx:id="txtProductPrice" layoutX="208.0" layoutY="348.0" prefHeight="32.0" prefWidth="153.0" promptText="Price" />
+                        <ComboBox fx:id="cmbProductSize" layoutX="368.0" layoutY="296.0" prefHeight="30.0" prefWidth="158.0" promptText="Select Size" />
+                        <ComboBox fx:id="cmbProductSupplier" layoutX="209.0" layoutY="398.0" prefHeight="30.0" prefWidth="318.0" promptText="Select Supplier" />
+                        <Button layoutX="215.0" layoutY="560.0" mnemonicParsing="false" onAction="#btnOnClickActionAdd" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" text="Add" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <stylesheets>
+                              <URL value="@../css/Home.css" />
+                              <URL value="@../css/style.css" />
+                           </stylesheets>
+                        </Button>
+                        <Button layoutX="323.0" layoutY="560.0" mnemonicParsing="false" onAction="#btnOnClickActionProductDelete" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" stylesheets="@../css/style.css" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="430.0" layoutY="560.0" mnemonicParsing="false" onAction="#btnOnClickActionProductUpdate" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" stylesheets="@../css/style.css" text="Update" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <TableView fx:id="tblInventory" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0">
+                          <columns>
+                            <TableColumn fx:id="colProductId" prefWidth="88.0" text="Product Id" />
+                            <TableColumn fx:id="colProductName" prefWidth="144.00006103515625" text="Product Name" />
+                              <TableColumn fx:id="colProductCategory" prefWidth="140.7999267578125" text="Product Category" />
+                              <TableColumn fx:id="colProductSupplierName" prefWidth="128.0" text="Supplier Name" />
+                              <TableColumn fx:id="colProductSize" prefWidth="63.2000732421875" text="Size" />
+                              <TableColumn fx:id="colProductPrice" prefWidth="84.0001220703125" text="Price" />
+                              <TableColumn fx:id="colProductStock" prefWidth="63.2000732421875" text="Stock" />
+                          </columns>
+                        </TableView>
+                        <TextField fx:id="txtProductQty" layoutX="370.0" layoutY="347.0" prefHeight="32.0" prefWidth="157.0" promptText="Quantity" />
+                        <Button layoutX="209.0" layoutY="482.0" mnemonicParsing="false" onAction="#btnOnActionImportImg" prefHeight="30.0" prefWidth="152.0" text="Import img">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <ImageView fx:id="imgViewUpImg" fitHeight="85.0" fitWidth="109.0" layoutX="404.0" layoutY="454.0" pickOnBounds="true" preserveRatio="true" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab styleClass="mainTab-tab" text="Supplier Management">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="199.0" layoutY="149.0" prefHeight="55.0" prefWidth="338.0" stylesheets="@../css/style.css">
+                           <styleClass>
+                              <String fx:value="search-box" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                           <children>
+                              <TextField fx:id="txtSearchSupplierId" layoutX="5.0" layoutY="10.0" prefHeight="32.0" prefWidth="215.0" promptText="Enter Supplier Id" styleClass="transparent" stylesheets="@../css/style.css">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" onAction="#onClickActionSearchSupplier" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE">
+                                 <font>
+                                    <Font name="Trebuchet MS Bold" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <Line endX="220.20001220703125" endY="-1.52587890625E-5" layoutX="311.0" layoutY="222.0" startX="-100.0" stroke="WHITE" strokeWidth="3.0" />
+                        <TextField fx:id="txtSupplierName" layoutX="211.0" layoutY="255.0" prefHeight="32.0" prefWidth="320.0" promptText="Supplier Name" />
+                        <TextField fx:id="txtSupplierCompany" layoutX="211.0" layoutY="323.0" prefHeight="32.0" prefWidth="320.0" promptText="Company" />
+                        <TextField fx:id="txtSupplierEmail" layoutX="211.0" layoutY="384.0" prefHeight="32.0" prefWidth="320.0" promptText="Email" />
+                        <ComboBox fx:id="cmbSupplierProduct" layoutX="212.0" layoutY="445.0" prefHeight="30.0" prefWidth="318.0" promptText="Select Product" />
+                        <Button layoutX="430.0" layoutY="560.0" mnemonicParsing="false" onAction="#btnOnClickActionUpdate" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Update" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="323.0" layoutY="560.0" mnemonicParsing="false" onAction="#btnonClickActionDelete" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="215.0" layoutY="560.0" mnemonicParsing="false" onAction="#btnonClickActionAdd" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Add" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <TableView fx:id="tblSupplier" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0">
+                          <columns>
+                            <TableColumn fx:id="colSupplierId" prefWidth="84.800048828125" text="Supplier Id" />
+                            <TableColumn fx:id="colSupplierName" prefWidth="184.7999267578125" text="Name" />
+                              <TableColumn fx:id="colSupplierCompany" prefWidth="172.79998779296875" text="Company" />
+                              <TableColumn fx:id="colSupilerEmail" prefWidth="155.2000732421875" text="Email" />
+                              <TableColumn fx:id="colSupplierItem" prefWidth="116.0001220703125" text="Item" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS" size="14.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab styleClass="mainTab-tab" text="Employee Management">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Line endX="223.60003662109375" endY="-1.52587890625E-5" layoutX="310.0" layoutY="181.0" startX="-100.0" stroke="WHITE" strokeWidth="3.0" />
+                        <TextField fx:id="txtEmpName" layoutX="209.0" layoutY="259.0" prefHeight="32.0" prefWidth="322.0" promptText="Name" />
+                        <TextField fx:id="txtEmpEmail" layoutX="208.0" layoutY="312.0" prefHeight="32.0" prefWidth="322.0" promptText="Email" />
+                        <TextField fx:id="txtEmpPassword" layoutX="208.0" layoutY="367.0" prefHeight="32.0" prefWidth="322.0" promptText="Password" />
+                        <Button layoutX="215.0" layoutY="473.0" mnemonicParsing="false" onAction="#btnOnClickActionEmpAdd" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Add" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="323.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnOnClickActionEmpDelete" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="430.0" layoutY="475.0" mnemonicParsing="false" onAction="#btnOnClickActionEmpUpdate" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Update" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <TableView fx:id="tblEmployee" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0">
+                          <columns>
+                            <TableColumn fx:id="colEmpId" prefWidth="104.0" text="Employee Id" />
+                            <TableColumn fx:id="colEmpName" prefWidth="204.0" text="Name" />
+                              <TableColumn fx:id="colEmpEmail" prefWidth="251.20001220703125" text="Email" />
+                              <TableColumn fx:id="colEmpCompany" prefWidth="151.9998779296875" text="Company" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtEmpCompany" layoutX="209.0" layoutY="420.0" prefHeight="32.0" prefWidth="322.0" promptText="Company" />
+                        <HBox layoutX="199.0" layoutY="149.0" prefHeight="55.0" prefWidth="338.0" styleClass="search-box" stylesheets="@../css/style.css">
+                           <children>
+                              <TextField fx:id="txtSearchEmpId" prefHeight="32.0" prefWidth="215.0" promptText="Enter Employee Id" styleClass="transparent" stylesheets="@../css/style.css">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" onAction="#btnOnClickActionEmpSearch" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE">
+                                 <font>
+                                    <Font name="Trebuchet MS Bold" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <Line endX="220.20001220703125" endY="-1.52587890625E-5" layoutX="311.0" layoutY="222.0" startX="-100.0" stroke="WHITE" strokeWidth="3.0" />
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

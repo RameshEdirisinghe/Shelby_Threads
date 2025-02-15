@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #1A1A1A;" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.home.EmployeeDashboardFormController">
+   <children>
+      <TabPane prefHeight="787.0" prefWidth="1534.0" style="-fx-background-color: #1A1A1A;" styleClass="mainTab" stylesheets="@../css/tabPane.css" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab styleClass="mainTab-tab" text="Dashboard">
+               <content>
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1534.0">
+                     <children>
+                        <BorderPane layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <left>
+                              <VBox prefHeight="200.0" prefWidth="435.0" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="110.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefHeight="49.0" prefWidth="128.0" text="Shelby" textFill="#bcb8b8">
+                                             <font>
+                                                <Font name="Cambria Bold" size="40.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Threads" textFill="#878787">
+                                             <font>
+                                                <Font name="Cambria" size="40.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="65.0" prefWidth="200.0" stylesheets="@../css/style.css" VBox.vgrow="NEVER">
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="30.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <TextField prefHeight="40.0" prefWidth="235.0" promptText="Type here to search" styleClass="transparent" stylesheets="@../css/style.css">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font name="Cambria" size="18.0" />
+                                             </font>
+                                          </TextField>
+                                          <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE" />
+                                       </children>
+                                       <styleClass>
+                                          <String fx:value="search-box" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </HBox>
+                                    <Pane prefHeight="18.0" prefWidth="435.0" VBox.vgrow="ALWAYS" />
+                                    <VBox fx:id="chosenFruitCard" alignment="CENTER" prefHeight="464.0" prefWidth="334.0" stylesheets="@../css/style.css">
+                                       <VBox.margin>
+                                          <Insets left="50.0" right="50.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <HBox prefHeight="60.0" prefWidth="335.0">
+                                             <children>
+                                                <Label fx:id="productNameLable" prefHeight="48.0" prefWidth="276.0" text="Trouser" textFill="#1a1a1a">
+                                                   <font>
+                                                      <Font name="Cambria" size="30.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="productPriceLabel" prefHeight="57.0" prefWidth="171.0" text="\$2.99" textFill="#1a1a1a">
+                                                   <font>
+                                                      <Font name="Cambria" size="30.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="20.0" top="30.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <ImageView fx:id="ProductImg" fitHeight="170.0" fitWidth="285.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../img/herringbone-tweed-3-4-long-overcoat-charcoal-36-600x700-removebg-preview.png" />
+                                             </image>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </ImageView>
+                                          <HBox alignment="CENTER" prefHeight="53.0" prefWidth="335.0">
+                                             <children>
+                                                <Label prefHeight="42.0" prefWidth="56.0" text="Qty :" textFill="#1a1a1a">
+                                                   <font>
+                                                      <Font name="Cambria" size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="txtFieldQty" prefHeight="38.0" prefWidth="46.0" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="0.0" prefWidth="334.0" />
+                                          <Button mnemonicParsing="false" onAction="#btnOnClickActionAddToCart" onMousePressed="#addToCart" prefHeight="50.0" prefWidth="270.0" styleClass="add-btn" stylesheets="@../css/style.css" text="ADD TO CART" textFill="#828282">
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" top="30.0" />
+                                             </VBox.margin>
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <styleClass>
+                                          <String fx:value="chosen-product-card" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </VBox>
+                                    <Pane prefHeight="57.0" prefWidth="435.0" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </left>
+                           <center>
+                              <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="65.0" prefWidth="200.0">
+                                       <VBox.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <Pane prefHeight="65.0" prefWidth="393.0" HBox.hgrow="ALWAYS" />
+                                          <Label prefHeight="62.0" prefWidth="121.0" text="Employee" textFill="#878787">
+                                             <font>
+                                                <Font name="Cambria" size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Pane prefHeight="100.0" prefWidth="739.0" />
+                                          <HBox alignment="CENTER" onMouseClicked="#onClickViewCart" prefHeight="100.0" prefWidth="211.0" styleClass="shopping-online-card" stylesheets="@../css/style.css">
+                                             <children>
+                                                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="86.0">
+                                                   <children>
+                                                      <Label prefHeight="30.0" prefWidth="80.0" text="CART" textFill="#d1d1d1">
+                                                         <font>
+                                                            <Font name="Cambria Bold" size="24.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <ImageView fitHeight="49.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../img/ic_cart.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                          </HBox>
+                                          <Pane prefHeight="100.0" prefWidth="0.0" />
+                                          <Label fx:id="lblcartCount" alignment="CENTER" prefHeight="27.0" prefWidth="26.0" style="-fx-background-color: #fffff0; -fx-background-radius: 25;" text="   0" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="20.0" right="20.0" top="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="1099.0" stylesheets="@../css/style.css" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <ScrollPane fx:id="scroll" prefHeight="601.0" prefWidth="1083.0" style="-fx-background-color: #1A1A1A;" styleClass="my-scrollpane" stylesheets="@../css/style.css">
+                                             <content>
+                                                <GridPane fx:id="grid" prefHeight="0.0" prefWidth="0.0" styleClass="my-gridpane" stylesheets="@../css/style.css">
+                                                   <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                                   </rowConstraints>
+                                                </GridPane>
+                                             </content>
+                                             <HBox.margin>
+                                                <Insets top="10.0" />
+                                             </HBox.margin>
+                                          </ScrollPane>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab styleClass="mainTab-tab" text="Inventory Management">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox layoutX="202.0" layoutY="99.0" prefHeight="55.0" prefWidth="338.0" stylesheets="@../css/style.css">
+                           <children>
+                              <TextField fx:id="txtProductId" layoutX="5.0" layoutY="10.0" prefHeight="32.0" prefWidth="215.0" promptText="Enter Product Id" styleClass="transparent">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <styleClass>
+                              <String fx:value="search-box" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                        </HBox>
+                        <Line endX="222.4000244140625" endY="-1.52587890625E-5" layoutX="310.0" layoutY="181.0" startX="-100.0" stroke="IVORY" strokeWidth="3.0" />
+                        <TextField fx:id="txtProductName" layoutX="209.0" layoutY="208.0" prefHeight="32.0" prefWidth="320.0" promptText="Product Name" />
+                        <ComboBox fx:id="cmbProductCategory" layoutX="209.0" layoutY="256.0" prefHeight="30.0" prefWidth="152.0" promptText="Select Category" />
+                        <TextField fx:id="txtProductPrice" layoutX="208.0" layoutY="306.0" prefHeight="32.0" prefWidth="153.0" promptText="Price" />
+                        <ComboBox fx:id="cmbProductSize" layoutX="368.0" layoutY="256.0" prefHeight="30.0" prefWidth="158.0" promptText="Select Size" />
+                        <ComboBox fx:id="cmbProductSupplier" layoutX="209.0" layoutY="354.0" prefHeight="30.0" prefWidth="318.0" promptText="Select Supplier" />
+                        <Button layoutX="215.0" layoutY="499.0" mnemonicParsing="false" onAction="#btnOnClickActionAdd" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" text="Add" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <stylesheets>
+                              <URL value="@../css/Home.css" />
+                              <URL value="@../css/style.css" />
+                           </stylesheets>
+                        </Button>
+                        <Button layoutX="323.0" layoutY="499.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" stylesheets="@../css/style.css" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="430.0" layoutY="499.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" stylesheets="@../css/style.css" text="Update" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <TableView layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0">
+                           <columns>
+                              <TableColumn prefWidth="88.0" text="Product Id" />
+                              <TableColumn prefWidth="144.00006103515625" text="Product Name" />
+                              <TableColumn prefWidth="140.7999267578125" text="Product Category" />
+                              <TableColumn prefWidth="128.0" text="Supplier Name" />
+                              <TableColumn prefWidth="63.2000732421875" text="Size" />
+                              <TableColumn prefWidth="84.0001220703125" text="Price" />
+                              <TableColumn prefWidth="63.2000732421875" text="Stock" />
+                           </columns>
+                        </TableView>
+                        <TextField fx:id="txtProductQty" layoutX="370.0" layoutY="305.0" prefHeight="32.0" prefWidth="157.0" promptText="Quantity" />
+                        <Button layoutX="209.0" layoutY="425.0" mnemonicParsing="false" onAction="#btnOnActionImportImg" prefHeight="30.0" prefWidth="152.0" text="Import img">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <ImageView fx:id="imgViewUpImg" fitHeight="85.0" fitWidth="109.0" layoutX="404.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab styleClass="mainTab-tab" text="Supplier Management">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField layoutX="209.0" layoutY="118.0" prefHeight="32.0" prefWidth="216.0" promptText="Enter Supplier Id" />
+                        <Button layoutX="451.0" layoutY="116.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" text="Search" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Line endX="226.79998779296875" endY="-1.52587890625E-5" layoutX="310.0" layoutY="181.0" startX="-100.0" stroke="WHITE" strokeWidth="3.0" />
+                        <TextField layoutX="209.0" layoutY="204.0" prefHeight="32.0" prefWidth="320.0" promptText="Supplier Id" />
+                        <TextField layoutX="210.0" layoutY="256.0" prefHeight="32.0" prefWidth="320.0" promptText="Supplier Name" />
+                        <TextField layoutX="210.0" layoutY="312.0" prefHeight="32.0" prefWidth="320.0" promptText="Company" />
+                        <TextField layoutX="210.0" layoutY="367.0" prefHeight="32.0" prefWidth="320.0" promptText="Email" />
+                        <ComboBox layoutX="211.0" layoutY="420.0" prefHeight="30.0" prefWidth="318.0" promptText="Select Product" />
+                        <Button layoutX="425.0" layoutY="479.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" text="Update" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="332.0" layoutY="479.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="234.0" layoutY="479.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" text="Add" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <TableView layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0">
+                           <columns>
+                              <TableColumn prefWidth="84.800048828125" text="Supplier Id" />
+                              <TableColumn prefWidth="184.7999267578125" text="Name" />
+                              <TableColumn prefWidth="172.79998779296875" text="Company" />
+                              <TableColumn prefWidth="155.2000732421875" text="Email" />
+                              <TableColumn prefWidth="116.0001220703125" text="Item" />
+                           </columns>
+                        </TableView>
+                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

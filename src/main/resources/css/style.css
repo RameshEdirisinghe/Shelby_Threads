@@ -1,0 +1,65 @@
+.search-box{
+    -fx-background-color:#fffff0;
+    -fx-background-radius: 100;
+}
+
+.transparent{
+    -fx-background-color: rgba(0,0,0,0);
+  
+}
+
+.search-button{
+    -fx-background-color: #5b7355;
+    -fx-background-radius: 30;
+    -fx-text-fill: #fffff0;
+}
+
+.right-bar{
+    -fx-background-color: #1A1A1A;
+}
+
+.shadow{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.chosen-product-card{
+    -fx-background-color: #fffff0;
+    -fx-background-radius: 30;
+}
+
+.comboBox{
+    -fx-background-color: rgba(31, 119, 17, 0.3);
+    -fx-background-radius: 30;
+    -fx-text-fill: #1A1A1A;
+}
+
+.add-btn{
+    -fx-background-color: #5b7355;
+    -fx-background-radius: 100;
+    -fx-text-fill: #fffff0;
+}
+
+
+.shopping-online-card{
+    -fx-background-color: #5b7355;
+    -fx-background-radius: 30;
+    -fx-text-fill: #fffff0;
+}
+
+.my-gridpane {
+    -fx-background-color: #1A1A1A;  /* Dark background color */        
+}
+
+.my-scrollpane {
+    -fx-background: #1A1A1A;           /* Set background color */
+
+}
+
+.my-scrollpane .viewport {
+    -fx-background: #1A1A1A;           /* Background for the scroll content area */
+}
+.product-item{
+    -fx-background-color: #fffff0;
+        -fx-background-radius: 30;
+        -fx-text-fill: #1A1A1A;
+}

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="526.0" prefWidth="708.0" style="-fx-background-color: #1A1A1A;" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.login.LoginFormController">
+   <children>
+      <AnchorPane fx:id="img3AnchorPane" prefHeight="547.0" prefWidth="308.0">
+         <children>
+            <ImageView fitHeight="555.0" fitWidth="308.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/loginImg2.jpg" />
+               </image>
+            </ImageView>
+            <Group layoutX="127.0" layoutY="466.0">
+               <children>
+                  <Label layoutX="37.0" prefHeight="32.0" prefWidth="18.0" text="." textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="19.0" onMouseClicked="#mounseOnClickimg2" prefHeight="32.0" prefWidth="18.0" text="." textFill="#ffffff77">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+                  <Label onMouseClicked="#mounseOnClickimg1" prefHeight="32.0" prefWidth="18.0" text="." textFill="#ffffff77">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="img2AnchorPane" prefHeight="547.0" prefWidth="308.0">
+         <children>
+            <ImageView fitHeight="555.0" fitWidth="326.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/loginImg3.jpg" />
+               </image>
+            </ImageView>
+            <Group layoutX="128.0" layoutY="466.0">
+               <children>
+                  <Label layoutX="19.0" prefHeight="32.0" prefWidth="18.0" text="." textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="37.0" onMouseClicked="#mounseOnClickimg3" prefHeight="32.0" prefWidth="18.0" text="." textFill="#ffffff77">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+                  <Label onMouseClicked="#mounseOnClickimg1" prefHeight="32.0" prefWidth="18.0" text="." textFill="#ffffff77">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="img1AnchorPane" prefHeight="547.0" prefWidth="308.0">
+         <children>
+            <ImageView fitHeight="570.0" fitWidth="308.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/loginImg.jpg" />
+               </image>
+            </ImageView>
+            <Group layoutX="127.0" layoutY="466.0">
+               <children>
+                  <Label prefHeight="32.0" prefWidth="18.0" text="." textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="18.0" onMouseClicked="#mounseOnClickimg2" prefHeight="32.0" prefWidth="18.0" text="." textFill="#ffffff63">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="37.0" onMouseClicked="#mounseOnClickimg3" prefHeight="32.0" prefWidth="18.0" text="." textFill="#ffffff77">
+                     <font>
+                        <Font name="System Bold" size="55.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="recoveryPasswordAnchorPane" layoutX="308.0" prefHeight="547.0" prefWidth="402.0" style="-fx-background-color: #2F2F2F;">
+         <children>
+            <Label layoutX="43.0" layoutY="72.0" prefHeight="38.0" prefWidth="166.0" text="Reset Password" textFill="IVORY">
+               <font>
+                  <Font name="Times New Roman Bold" size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtOtp" editable="false" layoutX="42.0" layoutY="226.0" prefHeight="20.0" prefWidth="318.0" promptText="6-digit-OTP" style="-fx-background-color: #2F2F2F; border: ;" />
+            <JFXButton layoutX="41.0" layoutY="366.0" onAction="#btnOnClickActionSubmit" prefHeight="32.0" prefWidth="318.0" style="-fx-background-color: #4A5A47;" text="Submit" textFill="IVORY">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <Label layoutX="126.0" layoutY="478.0" text="Copyright © 2025 ShelbyThreads" textFill="#fffff2b0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label layoutX="158.0" layoutY="492.0" text="All rights reserved" textFill="#fffff2b0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Hyperlink layoutX="41.0" layoutY="410.0" onMousePressed="#mouseOnActionLogin" text="Login -&gt;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Hyperlink>
+            <PasswordField fx:id="txtNewPassword" editable="false" layoutX="41.0" layoutY="272.0" prefHeight="32.0" prefWidth="318.0" promptText="New Password" style="-fx-background-color: #2F2F2F;" />
+            <PasswordField fx:id="txtConfirmPassword" editable="false" layoutX="42.0" layoutY="317.0" prefHeight="33.0" prefWidth="318.0" promptText="Confirm Password" style="-fx-background-color: #2F2F2F;">
+               <font>
+                  <Font size="10.0" />
+               </font></PasswordField>
+            <TextField fx:id="txtResetEmail" layoutX="42.0" layoutY="124.0" prefHeight="15.0" prefWidth="318.0" promptText="Enter Your Email" style="-fx-background-color: #2F2F2F;" />
+            <JFXButton layoutX="41.0" layoutY="169.0" onAction="#btnOnClickActionSendOtp" prefHeight="32.0" prefWidth="318.0" style="-fx-background-color: #4A5A47;" text="Send OTP " textFill="IVORY">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <AnchorPane fx:id="loginAnchorPane" layoutX="4.0" layoutY="2.0" prefHeight="547.0" prefWidth="402.0" style="-fx-background-color: #2F2F2F;">
+               <children>
+                  <Hyperlink layoutX="263.0" layoutY="303.0" onAction="#btnOnActionRecoveryPassword" text="Recovery Password">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Hyperlink>
+                  <Circle fill="#2f2f2f" layoutX="188.0" layoutY="110.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="169.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/icons8-login-64.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="43.0" layoutY="66.0" prefHeight="82.0" prefWidth="166.0" text="Login" textFill="IVORY">
+                     <font>
+                        <Font name="Times New Roman Bold" size="48.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtemail" layoutX="42.0" layoutY="182.0" prefHeight="32.0" prefWidth="317.0" promptText="example@gmail.com" style="-fx-background-color: #2F2F2F; border: ;" />
+                  <PasswordField fx:id="txtPassword" layoutX="42.0" layoutY="263.0" prefHeight="32.0" prefWidth="318.0" promptText="*********" style="-fx-background-color: #2F2F2F;" />
+                  <JFXCheckBox checkedColor="SILVER" layoutX="42.0" layoutY="304.0" text="Remember Me" textFill="IVORY">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </JFXCheckBox>
+                  <JFXButton layoutX="41.0" layoutY="349.0" onAction="#btnOnClickActionLogin" prefHeight="32.0" prefWidth="318.0" style="-fx-background-color: #4A5A47;" stylesheets="@../css/login.css" text="Login" textFill="IVORY">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="126.0" layoutY="478.0" text="Copyright © 2025 ShelbyThreads" textFill="#fffff2b0">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="158.0" layoutY="492.0" text="All rights reserved" textFill="#fffff2b0">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtRandomOtp" editable="false" layoutX="41.0" layoutY="384.0" visible="false" />
+                  <Label layoutX="41.0" layoutY="157.0" text="Email" textFill="IVORY" />
+                  <Label layoutX="40.0" layoutY="238.0" text="Password" textFill="IVORY" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,53 @@
+.rectangle {
+    -fx-fill: rgba(255, 255, 255, 0.504); /* Glass effect with transparency */
+    -fx-background-radius: 30;
+    -fx-arc-width: 30px; /* Rounded corners */
+    -fx-arc-height: 30px;
+    -fx-stroke: rgba(255, 255, 255, 0.3); /* Subtle border */
+    -fx-stroke-width: 0px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 246, 246, 0.5), 15, 0.2, 0, 5); /* Shadow effect */
+}
+
+.stacked-area-chart .chart-title {
+    -fx-text-fill: ivory; /* Match the background */
+    -fx-font-weight: bold; /* Bold title */
+}
+
+.stacked-area-chart .axis-label,  
+.stacked-area-chart .chart-legend-item {
+    -fx-text-fill: ivory; /* Matching label color */
+}
+
+.rectangle-1 {
+    -fx-fill: rgb(255, 255, 255); /* Glass effect with transparency */
+    -fx-background-radius: 30;
+    -fx-arc-width: 30px; /* Rounded corners */
+    -fx-arc-height: 30px;
+    -fx-stroke: rgba(255, 255, 255, 0.3); /* Subtle border */
+    -fx-stroke-width: 0px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 246, 246, 0.5), 15, 0.2, 0, 5); /* Shadow effect */
+}
+.addButton{
+    -fx-background-color: #1A1A1A; /* Grid background */
+    -fx-border-color: #33ff00;
+    -fx-text-fill: ivory;
+    -fx-border-width: 2px; 
+    -fx-border-radius: 10px;
+}
+
+.deleteButton{
+    -fx-background-color: #1A1A1A; /* Grid background */
+    -fx-border-color: #ff4d00;
+    -fx-text-fill: ivory;
+    -fx-border-width: 2px; 
+    -fx-border-radius: 10px;
+}
+
+.updateButton{
+    -fx-background-color: #1A1A1A; /* Grid background */
+    -fx-border-color: #2f00ff;
+    -fx-text-fill: ivory;
+    -fx-border-width: 2px; 
+    -fx-border-radius: 10px;
+}
+
