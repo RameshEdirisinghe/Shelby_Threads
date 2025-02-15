@@ -34,11 +34,11 @@
 
 ## Screenshots
 
-### Main Screen
-![Main Screen](./path-to-screenshot-main-screen.png)  
-*This is the main user interface of the POS system.*
+### Login Screen
+![Login Screen](https://github.com/RameshEdirisinghe/Shelby_Threads/blob/bb82d5d81ad9c1a79fd192601936450a2b9de403/login.png)  
 
-### Product Catalog
+
+### Admin Dashboard
 ![Product Catalog](./path-to-screenshot-product-catalog.png)  
 *View of the product catalog with images in the POS system.*
 
