@@ -36,19 +36,21 @@
 
 ### Login Screen
 ![Login Screen](https://github.com/RameshEdirisinghe/Shelby_Threads/blob/bb82d5d81ad9c1a79fd192601936450a2b9de403/login.png)  
-
+<br>
 
 ### Admin Dashboard
-![Product Catalog](./path-to-screenshot-product-catalog.png)  
-*View of the product catalog with images in the POS system.*
+![Product Catalog](https://github.com/RameshEdirisinghe/Shelby_Threads/blob/15f00ec2c710c977da42b6bc7240b719d74e6c5c/adminDashboard.png)  
+<br>
 
-### Sales Report
-![Sales Report](./path-to-screenshot-sales-report.png)  
-*Generated sales report using JasperReports.*
+### Place Order
+![Sales Report](https://github.com/RameshEdirisinghe/Shelby_Threads/blob/15f00ec2c710c977da42b6bc7240b719d74e6c5c/placeorder.png)  
+<br>
 
-### PDF Bill Generation
-![PDF Bill](./path-to-screenshot-pdf-bill.png)  
-*Example of a generated PDF bill for a customer.*
+
+### Reports
+![PDF Bill](https://github.com/RameshEdirisinghe/Shelby_Threads/blob/15f00ec2c710c977da42b6bc7240b719d74e6c5c/reports.png)  
+<br>
+
 
 ## Technologies Used
 
@@ -56,7 +58,7 @@
 - **Hibernate** – For ORM-based data handling.
 - **SQL** – For database management.
 - **JasperReports** – For generating sales reports.
-- **Dependency Injection (Spring)** – For decoupling layers.
+- **Dependency Injection (Google Guice)** – For decoupling layers.
 - **PDFBox** – For generating and printing PDFs.
 
 ## How to Contribute
