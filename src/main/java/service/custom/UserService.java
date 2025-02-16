@@ -1,4 +1,4 @@
 package service.custom;
 
-public interface UserService {
+public interface UserService extends SupplierService {
 }
