@@ -1,3 +1,5 @@
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,8 +16,10 @@ public class Starter extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
+        Injector injector = Guice.createInjector(new AppModule());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Login.fxml"));
+        loader.setControllerFactory(injector::getInstance);
+        stage.setScene(new Scene(loader.load()));
         stage.show();
     }
 }

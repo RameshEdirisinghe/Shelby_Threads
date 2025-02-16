@@ -135,8 +135,10 @@ public class EmployeeController {
             stm.setInt(4,employee.getId());
 
             if (stm.executeUpdate()>0){
+                System.out.println("hi1");
                 boolean isUpdate = UserController.getInstance().updateUser(employee);
                 if (isUpdate){
+                    System.out.println("hi2");
                     connection.commit();
                     return true;
                 }

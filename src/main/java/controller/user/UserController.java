@@ -40,6 +40,7 @@ public class UserController {
             stm.setString(2,employee.getEmail());
             stm.setString(3,employee.getPassword());
             stm.setString(4,employee.getName());
+            System.out.println("hi3");
 
             return stm.executeUpdate()>0;
         } catch (SQLException e) {

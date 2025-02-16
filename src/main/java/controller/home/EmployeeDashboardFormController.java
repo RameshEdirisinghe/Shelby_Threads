@@ -1,5 +1,8 @@
 package controller.home;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import controller.cart.CartController;
 import controller.products.MyListener;
 import controller.products.ProductFormController;
@@ -21,6 +24,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.CartDetails;
 import model.Product;
+import service.custom.EmployeeService;
+import util.AppModule;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,9 +35,12 @@ import java.util.ResourceBundle;
 
 public class EmployeeDashboardFormController implements Initializable {
 
-    public Label lblcartCount;
+
     public ComboBox cmbQty;
+
+    @FXML
     public TextField txtFieldQty;
+    public Label lblCartNumber;
     @FXML
     private VBox chosenFruitCard;
 
@@ -108,7 +116,10 @@ public class EmployeeDashboardFormController implements Initializable {
     private Image image;
     private MyListener myListener;
     int cartCount =0;
-    ArrayList<CartDetails> cartArray = new ArrayList<>();
+     public  ArrayList<CartDetails> cartArray = new ArrayList<>();
+
+    @Inject
+    private EmployeeService service;
 
     @FXML
     void btnOnActionImportImg(ActionEvent event) {
@@ -140,6 +151,20 @@ public class EmployeeDashboardFormController implements Initializable {
 
     }
 
+    public void setCartZero(){
+
+
+
+    }
+
+
+    private void setChosenProduct(Product product) {
+        this.productNameLable.setText(product.getName());
+        this.productPriceLabel.setText("$" + product.getPrice());
+        this.image = new Image(product.getImgPath());
+        this.ProductImg.setImage(this.image);
+    }
+
     private List<Product> getData() {
         List<Product> product = new ArrayList();
         for(Product p:ProductsController.getInstance().getAllProduct()){
@@ -148,23 +173,11 @@ public class EmployeeDashboardFormController implements Initializable {
         return product;
     }
 
-    private void setChosenProduct(Product product) {
-        this.productNameLable.setText(product.getName());
-        this.productPriceLabel.setText("$" + product.getPrice());
-        this.image = new Image(product.getImgPath());
-
-        this.ProductImg.setImage(this.image);
-
-    }
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         this.products.addAll(this.getData());
-
-        lblcartCount.setText(cartCount+"");
-        System.out.println(products);
+        lblCartNumber.setText(cartCount+"");
         if (this.products.size() > 0) {
             this.setChosenProduct(this.products.get(0));
             this.myListener = new MyListener() {
@@ -175,6 +188,8 @@ public class EmployeeDashboardFormController implements Initializable {
             };
 
         }
+
+
 
         int column = 0;
         int row = 1;
@@ -220,7 +235,7 @@ public class EmployeeDashboardFormController implements Initializable {
             cartArray.add(new CartDetails(productNameLable.getText(),Double.parseDouble(price.substring(1)),Integer.parseInt(txtFieldQty.getText())));
         }
 
-        lblcartCount.setText(cartCount+"");
+        lblCartNumber.setText(cartCount+"");
     }
 
     public void btnOnClickActionAddToCart(ActionEvent actionEvent) {
@@ -228,11 +243,14 @@ public class EmployeeDashboardFormController implements Initializable {
     }
 
     public void onClickViewCart(MouseEvent mouseEvent) {
-        CartController.setCartArray(cartArray);
-        Stage st = new Stage();
+        CartController.getInstance().setCart(cartArray);
+        Stage stage = new Stage();
         try {
-            st.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/cart.fxml"))));
-            st.show();
+            Injector injector = Guice.createInjector(new AppModule());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/cart.fxml"));
+            loader.setControllerFactory(injector::getInstance);
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

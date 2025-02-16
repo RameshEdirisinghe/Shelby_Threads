@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Employee {
+public class EmployeeEntity {
 
     private int id;
     private String name;

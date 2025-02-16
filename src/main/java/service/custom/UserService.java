@@ -2,6 +2,6 @@ package service.custom;
 
 import service.SuperService;
 
-public interface LoginService extends SuperService {
+public interface UserService extends SuperService {
     String LoginAuthenticate(String email,String password);
 }

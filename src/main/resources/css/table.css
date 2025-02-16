@@ -1,0 +1,54 @@
+/* Apply general background color to the TableView */
+.table-view {
+    -fx-background-color: #787a7a; /* Updated background color */
+    -fx-border-color: #5b7355;
+    -fx-border-width: 2px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+}
+
+/* Style the header of the TableView */
+.table-view .column-header-background {
+    -fx-background-color: #5b7355;
+}
+
+/* Style the column headers */
+.table-view .column-header {
+    -fx-text-fill: #fffff0;
+    -fx-font-weight: bold;
+}
+
+/* Style each table row */
+.table-view .table-row-cell {
+    -fx-background-color: #787a7a; /* Updated background color */
+    -fx-text-fill: #fffff0;
+}
+
+/* Style for the selected row */
+.table-view .table-row-cell:selected {
+    -fx-background-color: #5b7355;
+    -fx-text-fill: #787a7a; /* Updated text color */
+}
+
+/* Style for the alternating rows */
+.table-view .table-row-cell:even {
+    -fx-background-color: #2C2C2C;
+}
+
+/* Style the table's cells */
+.table-view .table-cell {
+    -fx-background-color: #787a7a; /* Updated background color */
+    -fx-text-fill: #fffff0;
+    -fx-padding: 5px;
+}
+
+/* Add hover effect to rows */
+.table-view .table-row-cell:hover {
+    -fx-background-color: #3A3A3A;
+    -fx-text-fill: #fffff0;
+}
+
+/* Style for the borders of the TableColumns */
+.table-view .table-column {
+    -fx-border-color: #5b7355;
+}

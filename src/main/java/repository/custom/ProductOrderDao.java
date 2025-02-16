@@ -1,4 +1,7 @@
 package repository.custom;
 
-public interface ProductOrderDao {
+import model.Order;
+import repository.CrudDao;
+
+public interface ProductOrderDao extends CrudDao<Order,Integer> {
 }

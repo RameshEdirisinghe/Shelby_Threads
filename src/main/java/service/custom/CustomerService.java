@@ -1,4 +1,8 @@
 package service.custom;
 
-public interface CustomerService {
+import service.SuperService;
+
+public interface CustomerService extends SuperService {
+
+    int getCustomersCount();
 }

@@ -1,16 +1,17 @@
 package controller.cart;
 
+import com.google.inject.Inject;
+import controller.home.EmployeeDashboardFormController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.CartDetails;
+import model.Order;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -18,8 +19,11 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.printing.PDFPrintable;
 import org.apache.pdfbox.printing.Scaling;
+import service.ServiceFactory;
 import service.custom.CartService;
+import service.custom.OrderService;
 import service.custom.impl.CartServiceImpl;
+import util.ServiceType;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -29,6 +33,7 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +42,17 @@ import java.util.ResourceBundle;
 public class CartController implements Initializable {
 
     private static ObservableList<CartDetails> cartItems;
+    public ComboBox cmbPaymentType;
+    public ComboBox cmbEmployeeId;
+    public Label lblOrderId;
     Double total;
+    private static CartController instance;
+
+    @Inject
+    private CartService service;
+
+    @Inject
+    private OrderService orderService;
 
     @FXML
     private TableColumn colProductName;
@@ -62,57 +77,50 @@ public class CartController implements Initializable {
 
     }
 
+
+
+    public static CartController getInstance(){
+        return instance==null?instance=new CartController():instance;
+    }
+
     @FXML
     void btnOnClickActionPrintBill(ActionEvent event) {
-        try {
-            CartService cart = new CartServiceImpl();
-            cart.printPDF(cartItems,total,txtFieldCustomerName.getText());
 
+        try {
+
+
+            boolean isPlaced =  orderService.placeOrder(new Order(Integer.parseInt(lblOrderId.getText()),txtFieldCustomerName.getText(),cartItems,Double.parseDouble(lnlTotal.getText()),cmbPaymentType.getSelectionModel().getSelectedItem().toString(),Integer.parseInt(cmbEmployeeId.getSelectionModel().getSelectedItem().toString())));
+            if (isPlaced){
+
+                new Alert(Alert.AlertType.INFORMATION,"Order Placed Successfully Placed collect your Bill ").show();
+                service.printPDF(cartItems,total,txtFieldCustomerName.getText());
+                cartItems.clear();
+
+                new EmployeeDashboardFormController().setCartZero();
+                new EmployeeDashboardFormController().cartArray.clear();
+                Stage currentStage = (Stage) txtFieldCustomerName.getScene().getWindow();
+                if (currentStage != null){
+                    currentStage.close();
+                }
+
+
+            }else{
+                new Alert(Alert.AlertType.INFORMATION,"Order Not Placed please try Again").show();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (PrinterException e) {
             throw new RuntimeException(e);
         }
+
     }
 
-//    public static void printPDF(String filePath) {
-//        try {
-//            // Load the PDF file
-//            PDDocument document = PDDocument.load(new File(filePath));
-//
-//            // Get the default printer
-//            PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
-//            if (printService != null) {
-//                // Create a printer job
-//                PrinterJob job = PrinterJob.getPrinterJob();
-//                job.setPrintService(printService);
-//
-//                // Wrap the PDDocument in a PDFPrintable object
-//                PDFPrintable printable = new PDFPrintable(document, Scaling.SHRINK_TO_FIT);
-//
-//                // Set the printable to the PDF document
-//                job.setPrintable(printable);
-//
-//                // Print the document
-//                job.print();
-//                System.out.println("PDF printed successfully.");
-//            } else {
-//                System.out.println("No printer found.");
-//            }
-//
-//            // Close the document
-//            document.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    public static void setCartArray(ArrayList<CartDetails> cartArray){
-        cartItems = FXCollections.observableArrayList();
-        cartArray.forEach(cartItem ->{
-            cartItems.add(cartItem);
-        });
-
+    public void setCart(ArrayList<CartDetails> cartArray){
+        CartService cartService =ServiceFactory.getInstance().getServiceType(ServiceType.CART);
+        cartItems = cartService.setCartArray(cartArray);
     }
 
     @Override
@@ -121,16 +129,31 @@ public class CartController implements Initializable {
         colProductPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colProductQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
 
+        try {
+            lblOrderId.setText(  service.getOrderId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        loadCmb();
         loadTable();
+
+    }
+    public void loadCmb(){
+        ObservableList<String> paymentTypes = service.getCmbPaymentItems();
+        cmbPaymentType.setItems(paymentTypes);
+
+        try {
+            ObservableList<Integer> employeeId = service.getCmbEmployeeIds();
+            cmbEmployeeId.setItems(employeeId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void loadTable(){
         tblCart.setItems(cartItems);
-        total=0.0;
-
-       for(CartDetails item : cartItems){
-            total += item.getPrice()* item.getQty();
-        }
+        total=service.setTotal(cartItems);
         lnlTotal.setText(total.toString());
     }
 }

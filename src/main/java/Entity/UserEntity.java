@@ -9,7 +9,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class User {
+public class UserEntity {
+    private Integer userId;
     private String UserName;
     private String UserEmail;
     private String UserPassword;

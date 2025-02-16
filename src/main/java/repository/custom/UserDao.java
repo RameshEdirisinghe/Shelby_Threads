@@ -1,8 +1,9 @@
 package repository.custom;
 
+import Entity.UserEntity;
 import repository.CrudDao;
 
-public interface LoginDao extends CrudDao<> {
+public interface UserDao extends CrudDao<UserEntity,Integer> {
 
 
 }

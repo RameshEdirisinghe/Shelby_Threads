@@ -129,7 +129,7 @@
                         </Label>
                         <Rectangle fx:id="rectangle1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="357.0" layoutX="94.0" layoutY="353.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="388.0" />
                          <Rectangle fx:id="rectangle2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="440.0" layoutX="495.0" layoutY="272.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="245.0" />
-                        <StackedAreaChart fx:id="StackedAreaChart" alternativeColumnFillVisible="true" layoutX="87.0" layoutY="373.0" prefHeight="326.0" prefWidth="387.0" title="Total Sales">
+                        <StackedAreaChart fx:id="StackedAreaChart" alternativeColumnFillVisible="true" layoutX="87.0" layoutY="373.0" prefHeight="326.0" prefWidth="387.0" title="Sales Summary">
                            <xAxis>
                               <NumberAxis fx:id="StackedAreaChartXAxis" autoRanging="false" minorTickCount="10" side="BOTTOM" tickLabelGap="2.0" upperBound="10.0" />
                            </xAxis>
@@ -165,7 +165,7 @@
                               <Image url="@../img/customerIcon.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="596.0" layoutY="473.0" prefHeight="46.0" prefWidth="64.0" text="220" textFill="#37ff00">
+                        <Label fx:id="lbltotalCustomers" layoutX="604.0" layoutY="473.0" prefHeight="46.0" prefWidth="46.0" text="40" textFill="#37ff00">
                            <font>
                               <Font name="Trebuchet MS Bold" size="36.0" />
                            </font>
@@ -180,7 +180,7 @@
                               <Image url="@../img/ordersIcon.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="596.0" layoutY="346.0" prefHeight="46.0" prefWidth="64.0" text="300" textFill="#ffce00">
+                        <Label fx:id="lblOrdersCount" layoutX="601.0" layoutY="346.0" prefHeight="46.0" prefWidth="46.0" text="70" textFill="#ffce00">
                            <font>
                               <Font name="Trebuchet MS Bold" size="36.0" />
                            </font>
@@ -195,7 +195,7 @@
                               <Image url="@../img/supplierIcon.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="606.0" layoutY="601.0" prefHeight="46.0" prefWidth="47.0" text="60" textFill="#00e3ff">
+                        <Label fx:id="lblSupplierCount" layoutX="606.0" layoutY="601.0" prefHeight="46.0" prefWidth="47.0" text="60" textFill="#00e3ff">
                            <font>
                               <Font name="Trebuchet MS Bold" size="36.0" />
                            </font>
@@ -218,30 +218,54 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <PieChart layoutX="889.0" layoutY="139.0" prefHeight="394.0" prefWidth="500.0" />
-                        <BarChart layoutX="146.0" layoutY="124.0" prefHeight="430.0" prefWidth="580.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </BarChart>
-                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="WHITE">
+                        <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="IVORY">
                            <font>
                               <Font name="Trebuchet MS Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="WHITE">
+                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
                            <font>
                               <Font name="Trebuchet MS" size="14.0" />
                            </font>
                         </Label>
-                        <Button layoutX="1354.0" layoutY="646.0" mnemonicParsing="false" style="-fx-background-color: #5b7355;" text="Print" textFill="WHITE">
+                        <Button layoutX="1377.0" layoutY="375.0" mnemonicParsing="false" onAction="#btnclickOnActionPrintReport" style="-fx-background-color: #5b7355;" text="Print" textFill="WHITE">
                            <font>
                               <Font name="Trebuchet MS Bold" size="24.0" />
                            </font>
                         </Button>
+                        <Button layoutX="1247.0" layoutY="374.0" mnemonicParsing="false" onAction="#btnclickOnActionViewReport" prefHeight="19.0" prefWidth="91.0" style="-fx-background-color: #5b7355;" text="View" textFill="WHITE">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="24.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="1233.0" layoutY="255.0" text="Genarate Reports" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="cmbReportType" layoutX="1231.0" layoutY="314.0" prefHeight="32.0" prefWidth="250.0" promptText="Select Report Type" style="-fx-background-color: #fffff0;" />
+                        <Label layoutX="299.0" layoutY="597.0" />
+                        <Label layoutX="168.0" layoutY="560.0" text="Top Sales Employees" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="781.0" layoutY="561.0" text="Top-Selling Products" textFill="IVORY">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9c9c9c" height="427.0" layoutX="33.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" styleClass="rectangle" width="621.0" />
+                        <BarChart fx:id="BestEmployeeChart" alternativeColumnFillVisible="true" layoutX="35.0" layoutY="154.0" prefHeight="400" prefWidth="600">
+                           <xAxis>
+                              <NumberAxis label="Total Sales" minorTickCount="50" tickLabelFill="#fff9f9" tickLabelGap="5.0" upperBound="2000.0" />
+                           </xAxis>
+                           <yAxis>
+                              <CategoryAxis label="Employee" />
+                           </yAxis>
+                        </BarChart>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9c9c9c" height="426.0" layoutX="673.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" styleClass="rectangle" width="529.0" />
+                        <PieChart fx:id="BestSaleProductPieChart" layoutX="692.0" layoutY="141.0" />
                      </children></AnchorPane>
                </content>
             </Tab>
@@ -305,17 +329,20 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <TableView fx:id="tblInventory" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0">
-                          <columns>
-                            <TableColumn fx:id="colProductId" prefWidth="88.0" text="Product Id" />
-                            <TableColumn fx:id="colProductName" prefWidth="144.00006103515625" text="Product Name" />
-                              <TableColumn fx:id="colProductCategory" prefWidth="140.7999267578125" text="Product Category" />
-                              <TableColumn fx:id="colProductSupplierName" prefWidth="128.0" text="Supplier Name" />
-                              <TableColumn fx:id="colProductSize" prefWidth="63.2000732421875" text="Size" />
-                              <TableColumn fx:id="colProductPrice" prefWidth="84.0001220703125" text="Price" />
-                              <TableColumn fx:id="colProductStock" prefWidth="63.2000732421875" text="Stock" />
-                          </columns>
+                        <TableView fx:id="tblInventory" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0" styleClass="table-view" stylesheets="@../css/table_style.css">
+                           <columns>
+                              <TableColumn fx:id="colProductId" prefWidth="88.0" styleClass="table-column" text="Product Id" />
+                              <TableColumn fx:id="colProductName" prefWidth="144.0" styleClass="table-column" text="Product Name" />
+                              <TableColumn fx:id="colProductCategory" prefWidth="140.8" styleClass="table-column" text="Product Category" />
+                              <TableColumn fx:id="colProductSupplierName" prefWidth="128.0" styleClass="table-column" text="Supplier Name" />
+                              <TableColumn fx:id="colProductSize" prefWidth="63.2" styleClass="table-column" text="Size" />
+                              <TableColumn fx:id="colProductPrice" prefWidth="84.0" styleClass="table-column" text="Price" />
+                              <TableColumn fx:id="colProductStock" prefWidth="63.2" styleClass="table-column" text="Stock" />
+                           </columns>
                         </TableView>
+
+
+
                         <TextField fx:id="txtProductQty" layoutX="370.0" layoutY="347.0" prefHeight="32.0" prefWidth="157.0" promptText="Quantity" />
                         <Button layoutX="209.0" layoutY="482.0" mnemonicParsing="false" onAction="#btnOnActionImportImg" prefHeight="30.0" prefWidth="152.0" text="Import img">
                            <font>
@@ -371,7 +398,7 @@
                               <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                         </Button>
-                        <TableView fx:id="tblSupplier" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0">
+                        <TableView fx:id="tblSupplier" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0" stylesheets="@../css/table_style.css">
                           <columns>
                             <TableColumn fx:id="colSupplierId" prefWidth="84.800048828125" text="Supplier Id" />
                             <TableColumn fx:id="colSupplierName" prefWidth="184.7999267578125" text="Name" />
@@ -416,7 +443,7 @@
                               <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                         </Button>
-                        <TableView fx:id="tblEmployee" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0">
+                        <TableView fx:id="tblEmployee" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0" stylesheets="@../css/table_style.css">
                           <columns>
                             <TableColumn fx:id="colEmpId" prefWidth="104.0" text="Employee Id" />
                             <TableColumn fx:id="colEmpName" prefWidth="204.0" text="Name" />

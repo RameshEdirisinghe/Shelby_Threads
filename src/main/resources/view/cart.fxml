@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,47 +10,65 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="436.0" prefWidth="360.0" style="-fx-background-color: #1A1A1A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.cart.CartController">
+<AnchorPane prefHeight="556.0" prefWidth="452.0" style="-fx-background-color: #1A1A1A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.cart.CartController">
    <children>
-      <Label layoutX="144.0" layoutY="14.0" text="CART" textFill="IVORY">
+      <Label layoutX="190.0" layoutY="14.0" text="CART" textFill="IVORY">
          <font>
             <Font name="Verdana Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="29.0" layoutY="76.0" text="Customer" textFill="IVORY">
+      <Label fx:id="lblOrderId" layoutX="111.0" layoutY="76.0" prefHeight="20.0" prefWidth="46.0" text="0001" textFill="IVORY">
          <font>
             <Font name="Verdana" size="16.0" />
          </font>
       </Label>
-      <Line endX="151.20001220703125" endY="-3.814697265625E-6" layoutX="180.0" layoutY="56.0" startX="-152.0" startY="-3.814697265625E-6" stroke="IVORY" />
-      <TableView fx:id="tblCart" layoutX="28.0" layoutY="115.0" prefHeight="204.0" prefWidth="304.0" style="-fx-background-color: #fffff0;">
+      <Line endX="235.19998168945312" endY="-7.62939453125E-6" layoutX="180.0" layoutY="56.0" startX="-152.0" startY="-3.814697265625E-6" stroke="IVORY" />
+      <TableView fx:id="tblCart" layoutX="28.0" layoutY="115.0" prefHeight="204.0" prefWidth="386.0" style="-fx-background-color: #fffff0;">
         <columns>
-          <TableColumn fx:id="colProductName" prefWidth="90.4000244140625" text="Product Name" />
-          <TableColumn fx:id="colProductQty" prefWidth="117.5999755859375" text="Product Qty" />
-            <TableColumn fx:id="colProductPrice" prefWidth="95.99993896484375" text="Price" />
+          <TableColumn fx:id="colProductName" prefWidth="124.79999351501465" text="Product Name" />
+          <TableColumn fx:id="colProductQty" prefWidth="129.5999755859375" text="Product Qty" />
+            <TableColumn fx:id="colProductPrice" prefWidth="132.800048828125" text="Unit Price" />
         </columns>
       </TableView>
-      <Label layoutX="192.0" layoutY="331.0" text="Total :" textFill="IVORY">
+      <Label layoutX="280.0" layoutY="331.0" text="Total :" textFill="IVORY">
          <font>
             <Font name="Verdana Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lnlTotal" alignment="CENTER" layoutX="257.0" layoutY="328.0" prefHeight="20.0" prefWidth="58.0" text="0.00" textFill="IVORY">
+      <Label fx:id="lnlTotal" alignment="CENTER" layoutX="345.0" layoutY="328.0" prefHeight="20.0" prefWidth="58.0" text="0.00" textFill="IVORY">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Button layoutX="186.0" layoutY="377.0" mnemonicParsing="false" onAction="#btnOnClickActionPrintBill" prefHeight="30.0" prefWidth="146.0" style="-fx-background-color: #76ae68;" text="Print Bill" textFill="IVORY">
+      <Button layoutX="230.0" layoutY="490.0" mnemonicParsing="false" onAction="#btnOnClickActionPrintBill" prefHeight="30.0" prefWidth="178.0" style="-fx-background-color: #76ae68;" text="Place Order" textFill="IVORY">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="32.0" layoutY="377.0" mnemonicParsing="false" onAction="#btnOnClickActionCancel" prefHeight="30.0" prefWidth="146.0" style="-fx-background-color: #acacab;" text="Cancel" textFill="IVORY">
+      <Button layoutX="32.0" layoutY="490.0" mnemonicParsing="false" onAction="#btnOnClickActionCancel" prefHeight="30.0" prefWidth="177.0" style="-fx-background-color: #acacab;" text="Cancel" textFill="IVORY">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Line endX="151.20001220703125" endY="-3.814697265625E-6" layoutX="183.0" layoutY="362.0" startX="-152.0" startY="-3.814697265625E-6" stroke="IVORY" />
-      <TextField fx:id="txtFieldCustomerName" layoutX="128.0" layoutY="74.0" prefHeight="26.0" prefWidth="200.0" promptText="Customer Name" style="-fx-background-color: #fffff0;" />
+      <Line endX="233.00003051757812" layoutX="183.0" layoutY="362.0" startX="-152.0" startY="-3.814697265625E-6" stroke="IVORY" />
+      <TextField fx:id="txtFieldCustomerName" layoutX="206.0" layoutY="73.0" prefHeight="26.0" prefWidth="200.0" promptText="Customer Name" style="-fx-background-color: #fffff0;" />
+      <ComboBox fx:id="cmbPaymentType" layoutX="250.0" layoutY="384.0" prefWidth="150.0" promptText="Select Type" style="-fx-background-color: #fffff0;" />
+      <Label layoutX="32.0" layoutY="388.0" text="Payment Type  :" textFill="IVORY">
+         <font>
+            <Font name="Verdana" size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbEmployeeId" layoutX="250.0" layoutY="425.0" prefWidth="150.0" promptText="Select Id" style="-fx-background-color: #fffff0;" />
+      <Label layoutX="33.0" layoutY="429.0" text="Emplyee          :" textFill="IVORY">
+         <font>
+            <Font name="Verdana" size="16.0" />
+         </font>
+      </Label>
+      <Line endX="232.00003051757812" endY="3.0517578125E-5" layoutX="184.0" layoutY="472.0" startX="-152.0" startY="-3.814697265625E-6" stroke="IVORY" />
+      <Label layoutX="27.0" layoutY="76.0" prefHeight="20.0" prefWidth="86.0" text="Order Id :" textFill="IVORY">
+         <font>
+            <Font name="Verdana" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

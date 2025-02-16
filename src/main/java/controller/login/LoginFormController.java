@@ -80,7 +80,6 @@ public class LoginFormController {
     public void btnOnClickActionLogin(ActionEvent actionEvent) {
         String usrId = LoginController.getInstance().login(txtemail.getText(),txtPassword.getText());
         if(usrId!=null){
-            System.out.println("awa");
             txtemail.clear();
             txtPassword.clear();
             newForm(usrId);

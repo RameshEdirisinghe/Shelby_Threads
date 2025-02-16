@@ -11,7 +11,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CartDetails {
+public class CartDetailsEntity {
 
     private String productName;
     private Double price;
@@ -19,7 +19,7 @@ public class CartDetails {
 
     @Override
     public boolean equals(Object o) {
-        CartDetails cart = (CartDetails) o;
+        CartDetailsEntity cart = (CartDetailsEntity) o;
         if (this.productName == cart.getProductName() ) return true;
         return false;
     }

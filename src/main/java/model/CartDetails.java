@@ -12,6 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @ToString
 public class CartDetails {
+
     private String productName;
     private Double price;
     private int qty;

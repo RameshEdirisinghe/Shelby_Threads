@@ -1,5 +1,6 @@
 package service.custom.impl;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.CartDetails;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -9,7 +10,12 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.printing.PDFPrintable;
 import org.apache.pdfbox.printing.Scaling;
+import repository.DaoFactory;
+import repository.custom.OrderDao;
 import service.custom.CartService;
+import service.custom.EmployeeService;
+import service.custom.OrderService;
+import util.DaoType;
 
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
@@ -17,8 +23,11 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CartServiceImpl implements CartService {
 
@@ -77,7 +86,7 @@ public class CartServiceImpl implements CartService {
             contentStream.beginText();
             contentStream.newLineAtOffset(70, yPosition);
             contentStream.setFont(PDType1Font.HELVETICA, 12);
-            contentStream.showText(String.format("%-20s %5d  $%6.2f  $%6.2f", product.getProductName(), product.getQty(), product.getPrice(), total));
+            contentStream.showText(String.format("%-20s %5d  $%6.2f  $%6.2f", product.getProductName(), product.getQty(), product.getPrice(), total1));
             contentStream.endText();
 
             yPosition -= 20;
@@ -119,5 +128,51 @@ public class CartServiceImpl implements CartService {
 
         // Close the document
         document.close();
+    }
+
+    @Override
+    public ObservableList<CartDetails> setCartArray(ArrayList<CartDetails> cartArray) {
+        ObservableList<CartDetails> cartItems = FXCollections.observableArrayList();
+        cartArray.forEach(cartItem ->{
+            cartItems.add(cartItem);
+        });
+
+        return cartItems;
+    }
+
+    @Override
+    public Double setTotal(ObservableList<CartDetails> cartItems) {
+        Double total=0.0;
+        for(CartDetails item : cartItems){
+            total += item.getPrice()* item.getQty();
+        }
+        return total;
+    }
+
+    @Override
+    public ObservableList<String> getCmbPaymentItems() {
+        ObservableList<String> cat = FXCollections.observableArrayList() ;
+        cat.add("Cash");
+        cat.add("Card");
+        cat.add("Online");
+        return cat;
+    }
+
+    @Override
+    public ObservableList<Integer> getCmbEmployeeIds() throws SQLException {
+        ObservableList<Integer> empIds = FXCollections.observableArrayList();
+        List<Integer> Ids = new EmployeeServiceImpl().getEmpIds();
+
+        for(Integer id : Ids){
+            empIds.add(id);
+        }
+        return empIds;
+    }
+
+    @Override
+    public String getOrderId() throws SQLException {
+       OrderDao orderDao = DaoFactory.getInstance().getDaoType(DaoType.ORDER);
+        return orderDao.getOrderId();
+
     }
 }

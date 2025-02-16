@@ -1,23 +1,26 @@
 package repository.custom.impl;
 
-import repository.custom.LoginDao;
+import Entity.UserEntity;
+import repository.custom.UserDao;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class LoginDaoImpl implements LoginDao {
+public class UserDaoImpl implements UserDao {
+
+
     @Override
-    public boolean save(Object entity) throws SQLException {
+    public boolean save(UserEntity entity) throws SQLException {
         return false;
     }
 
     @Override
-    public boolean update(Object o, Object entity) {
+    public boolean update(Integer integer, UserEntity entity) {
         return false;
     }
 
     @Override
-    public boolean delete(Object o) {
+    public boolean delete(Integer integer) {
         return false;
     }
 
