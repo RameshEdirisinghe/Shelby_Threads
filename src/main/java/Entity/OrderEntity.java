@@ -1,4 +1,4 @@
-package model;
+package Entity;
 
 import javafx.collections.ObservableList;
 import lombok.AllArgsConstructor;

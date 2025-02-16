@@ -1,4 +1,13 @@
 package service.custom.impl;
 
-public class UserServiceImpl {
+import service.custom.LoginService;
+
+public class LoginServiceImpl implements LoginService {
+
+
+    @Override
+    public String LoginAuthenticate(String email, String password) {
+
+        return "";
+    }
 }
