@@ -1,6 +1,8 @@
 package controller.home;
 
 import DBConnection.DBConnection;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import controller.employee.EmployeeController;
 import controller.products.ProductsController;
 import controller.supplier.SupplierController;
@@ -10,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
@@ -26,6 +29,7 @@ import javafx.stage.Stage;
 import model.Employee;
 import model.Product;
 import model.Supplier;
+import model.User;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -34,17 +38,15 @@ import repository.DaoFactory;
 import repository.custom.OrderDao;
 import service.ServiceFactory;
 import service.custom.CustomerService;
+import util.AppModule;
 import util.DaoType;
 import util.ServiceType;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ResourceBundle;
+import java.sql.*;
+import java.util.*;
 
 
 public class HomeFormController implements Initializable {
@@ -65,7 +67,6 @@ public class HomeFormController implements Initializable {
     public TextField txtEmpEmail;
     public TextField txtEmpName;
     public TextField txtSearchEmpId;
-    public AnchorPane anchorPaneImgLoader;
     public TextField txtEmpCompany;
     public TableColumn colEmpCompany;
     public ImageView imgViewUpImg;
@@ -96,8 +97,6 @@ public class HomeFormController implements Initializable {
     public TableColumn colProductSize;
     public TableColumn colProductPrice;
     public TableColumn colProductStock;
-    public LineChart BestCustomerChart;
-    public LineChart BestProductChart;
     public ComboBox cmbReportType;
     public BarChart BestEmployeeChart;
     public PieChart BestSaleProductPieChart;
@@ -114,8 +113,8 @@ public class HomeFormController implements Initializable {
     private static final String[] PIE_COLORS = {"#6c7b8b", "#8B7D6B", "#6A6A4F", "#5a6e6c"};
 
 
-    public static void setUserId(String usrId){
-        String userId=usrId;
+    public static void setUserId(User user){
+        String userId=user.getUserId()+"";
     }
 
     @Override
@@ -131,41 +130,100 @@ public class HomeFormController implements Initializable {
         ZoomInRightAnimation.play();
 
 
-        //load charts
-        StackedAreaChartXAxis.setLabel("Days (Last 10 Days)");
-        StackedAreaChartYAxis.setLabel("Sales");
+        Map<String, XYChart.Series<Number, Number>> seriesMap = new HashMap<>();
 
-        // Create series for each product
-        XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
-        series1.setName("Classic Cap");
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement statement = connection.createStatement()) {
 
-        XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
-        series2.setName("Jacket");
+            // Step 1: Get Top 3 Products
+            String topProductsQuery = """
+            WITH TopProducts AS (
+                SELECT ProductName, SUM(Quantity) AS total_sales
+                FROM orderProduct
+                JOIN orders ON orderProduct.OrderID = orders.OrderID
+                WHERE OrderDate >= CURDATE() - INTERVAL 10 DAY
+                GROUP BY ProductName
+                ORDER BY total_sales DESC
+                LIMIT 3
+            )
+            SELECT ProductName FROM TopProducts;
+            """;
+            ResultSet topProductsResult = statement.executeQuery(topProductsQuery);
 
-        XYChart.Series<Number, Number> series3 = new XYChart.Series<>();
-        series3.setName("Pocket Watch");
+            // Store top 3 product names
+            List<String> topProducts = new ArrayList<>();
+            while (topProductsResult.next()) {
+                topProducts.add(topProductsResult.getString("ProductName"));
+            }
 
-        // Example sales data for the last 10 days (static)
-        int[] salesProductA = {10, 15, 20, 17, 12, 25, 30, 18, 22, 28}; // Product A sales
-        int[] salesProductB = {12, 14, 18, 16, 20, 27, 31, 24, 19, 26}; // Product B sales
-        int[] salesProductC = {8, 10, 14, 19, 15, 21, 24, 22, 26, 30};  // Product C sales
+            // Step 2: Fetch Sales Data for the Top 3 Products
+            String salesQuery = """
+            WITH TopProducts AS (
+                SELECT ProductName, SUM(Quantity) AS total_sales
+                FROM orderProduct
+                JOIN orders ON orderProduct.OrderID = orders.OrderID
+                WHERE OrderDate >= CURDATE() - INTERVAL 10 DAY
+                GROUP BY ProductName
+                ORDER BY total_sales DESC
+                LIMIT 3
+            )
+            SELECT DATE(OrderDate) AS order_day, orderProduct.ProductName, SUM(orderProduct.Quantity) AS sales
+            FROM orderProduct
+            JOIN orders ON orderProduct.OrderID = orders.OrderID
+            WHERE orderProduct.ProductName IN (SELECT ProductName FROM TopProducts)
+            AND OrderDate >= CURDATE() - INTERVAL 10 DAY
+            GROUP BY order_day, orderProduct.ProductName
+            ORDER BY order_day, orderProduct.ProductName;
+            """;
 
-        // Add data to the series for each day (1 to 10)
-        for (int i = 0; i < 10; i++) {
-            // Adding data points to the series
-            series1.getData().add(new XYChart.Data<>(i + 1, salesProductA[i]));
-            series2.getData().add(new XYChart.Data<>(i + 1, salesProductB[i]));
-            series3.getData().add(new XYChart.Data<>(i + 1, salesProductC[i]));
-        }
+            ResultSet salesResult = statement.executeQuery(salesQuery);
 
-        // Add the series to the StackedAreaChart
-        StackedAreaChart.getData().addAll(series1, series2, series3);
+            // Initialize series for each product
+            for (String product : topProducts) {
+                XYChart.Series<Number, Number> series = new XYChart.Series<>();
+                series.setName(product);
+                seriesMap.put(product, series);
+            }
 
-        // Optional: Customize axis ranges
-        StackedAreaChartXAxis.setLowerBound(1); // Start at day 1
-        StackedAreaChartXAxis.setUpperBound(10); // End at day 10
-        StackedAreaChartYAxis.setLowerBound(0);
-        StackedAreaChartYAxis.setUpperBound(100); // Adjust the max sales value as needed
+            // Store sales data
+            Map<Integer, Map<String, Integer>> salesData = new HashMap<>();
+            int minDay = Integer.MAX_VALUE, maxDay = Integer.MIN_VALUE, maxSales = 1;
+
+            while (salesResult.next()) {
+                int day = salesResult.getDate("order_day").toLocalDate().getDayOfMonth();
+                String productName = salesResult.getString("ProductName");
+                int sales = salesResult.getInt("sales");
+
+                salesData.computeIfAbsent(day, k -> new HashMap<>()).put(productName, sales);
+                minDay = Math.min(minDay, day);
+                maxDay = Math.max(maxDay, day);
+                maxSales = Math.max(maxSales, sales);
+            }
+
+            // Populate data (Fill missing days with 0)
+            for (int day = minDay; day <= maxDay; day++) {
+                for (String product : topProducts) {
+                    int sales = salesData.getOrDefault(day, new HashMap<>()).getOrDefault(product, 0);
+                    seriesMap.get(product).getData().add(new XYChart.Data<>(day, sales));
+                }
+            }
+
+            // Clear old data & add new series
+            StackedAreaChart.getData().clear();
+            StackedAreaChart.getData().addAll(seriesMap.values());
+
+
+                // Adjust Axis Dynamically
+                ((NumberAxis) StackedAreaChartXAxis).setLowerBound(minDay); // Start at first recorded sale
+                ((NumberAxis) StackedAreaChartXAxis).setUpperBound(maxDay + 1); // Stop at last sale
+                ((NumberAxis) StackedAreaChartYAxis).setLowerBound(0);
+                ((NumberAxis) StackedAreaChartYAxis).setUpperBound(Math.max(10, maxSales + 36)); // Ensure visibility
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
 
         //set Tables Cols-Employee
         colEmpId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -467,7 +525,10 @@ public class HomeFormController implements Initializable {
     public void btnOnclickActionPlaceOrder(ActionEvent actionEvent) {
         Stage st = new Stage();
         try {
-            st.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/EmployeeDashboard.fxml"))));
+            Injector injector = Guice.createInjector(new AppModule());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/EmployeeDashboard.fxml"));
+            loader.setController(injector.getInstance(EmployeeDashboardFormController.class));
+            st.setScene(new Scene(loader.load()));
             st.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

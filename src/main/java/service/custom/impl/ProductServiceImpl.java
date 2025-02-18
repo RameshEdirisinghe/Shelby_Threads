@@ -1,4 +1,12 @@
 package service.custom.impl;
 
-public class ProductServiceImpl {
+import model.Product;
+import service.custom.ProductService;
+
+public class ProductServiceImpl implements ProductService {
+    @Override
+    public boolean addProducts(Product product) {
+
+        return false;
+    }
 }

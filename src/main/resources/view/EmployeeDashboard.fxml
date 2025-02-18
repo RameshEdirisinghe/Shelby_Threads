@@ -24,7 +24,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #1A1A1A;" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.home.EmployeeDashboardFormController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #1A1A1A;" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <TabPane prefHeight="787.0" prefWidth="1534.0" style="-fx-background-color: #1A1A1A;" styleClass="mainTab" stylesheets="@../css/tabPane.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>

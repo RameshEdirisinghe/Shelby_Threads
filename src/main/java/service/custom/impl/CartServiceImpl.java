@@ -1,5 +1,6 @@
 package service.custom.impl;
 
+import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.CartDetails;
@@ -11,6 +12,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.printing.PDFPrintable;
 import org.apache.pdfbox.printing.Scaling;
 import repository.DaoFactory;
+import repository.custom.EmployeeDao;
 import repository.custom.OrderDao;
 import service.custom.CartService;
 import service.custom.EmployeeService;
@@ -158,20 +160,25 @@ public class CartServiceImpl implements CartService {
         return cat;
     }
 
+    @Inject
+    EmployeeService employeeService;
+
     @Override
     public ObservableList<Integer> getCmbEmployeeIds() throws SQLException {
+
         ObservableList<Integer> empIds = FXCollections.observableArrayList();
-        List<Integer> Ids = new EmployeeServiceImpl().getEmpIds();
+        List<Integer> Ids = employeeService.getEmpIds();
 
         for(Integer id : Ids){
             empIds.add(id);
         }
         return empIds;
     }
-
+    @Inject
+    OrderDao orderDao;
     @Override
     public String getOrderId() throws SQLException {
-       OrderDao orderDao = DaoFactory.getInstance().getDaoType(DaoType.ORDER);
+
         return orderDao.getOrderId();
 
     }

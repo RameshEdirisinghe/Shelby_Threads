@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lombok.NoArgsConstructor;
 import model.CartDetails;
 import model.Order;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+
+
 public class CartController implements Initializable {
 
     private static ObservableList<CartDetails> cartItems;
@@ -48,8 +51,8 @@ public class CartController implements Initializable {
     Double total;
     private static CartController instance;
 
-    @Inject
-    private CartService service;
+
+
 
     @Inject
     private OrderService orderService;
@@ -77,11 +80,12 @@ public class CartController implements Initializable {
 
     }
 
+    @Inject
+    private CartService service;
 
 
-    public static CartController getInstance(){
-        return instance==null?instance=new CartController():instance;
-    }
+
+
 
     @FXML
     void btnOnClickActionPrintBill(ActionEvent event) {
@@ -118,7 +122,7 @@ public class CartController implements Initializable {
 
     }
 
-    public void setCart(ArrayList<CartDetails> cartArray){
+    public static void setCart(ArrayList<CartDetails> cartArray){
         CartService cartService =ServiceFactory.getInstance().getServiceType(ServiceType.CART);
         cartItems = cartService.setCartArray(cartArray);
     }

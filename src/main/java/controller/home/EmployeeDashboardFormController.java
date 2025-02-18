@@ -243,7 +243,7 @@ public class EmployeeDashboardFormController implements Initializable {
     }
 
     public void onClickViewCart(MouseEvent mouseEvent) {
-        CartController.getInstance().setCart(cartArray);
+        CartController.setCart(cartArray);
         Stage stage = new Stage();
         try {
             Injector injector = Guice.createInjector(new AppModule());

@@ -1,8 +1,11 @@
 package repository.custom.impl;
 
+import DBConnection.DBConnection;
 import Entity.UserEntity;
 import repository.custom.UserDao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -27,5 +30,34 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List getAll() {
         return List.of();
+    }
+
+    @Override
+    public UserEntity LoginAuthenticate(String email, String password) throws SQLException {
+
+            ResultSet rst = DBConnection.getInstance().getConnection().createStatement().executeQuery("Select * from User");
+            while (rst.next()) {
+                if (rst.getString(3).equals(email)) {
+                    ResultSet rst1 = DBConnection.getInstance().getConnection().createStatement().executeQuery("Select * from User where Email='" + email + "'");
+                    if (rst.getString(4).equals(password)) {
+                       return new UserEntity(rst.getInt(1),null,null,null,rst.getString(5));
+                    }
+                }
+
+            }
+            return null;
+
+    }
+
+    @Override
+    public boolean isExist(String email) throws SQLException {
+        ResultSet rst = DBConnection.getInstance().getConnection().createStatement().executeQuery("Select Email from user where Email='"+email+"'");
+        return rst.next()?true:false;
+    }
+
+    @Override
+    public boolean updatePassword(String email, String newPassword) throws SQLException {
+        PreparedStatement stm = DBConnection.getInstance().getConnection().prepareStatement("UPDATE user SET password = '"+newPassword+"' WHERE Email ='"+email+"'");
+        return stm.executeUpdate()>0;
     }
 }

@@ -14,11 +14,8 @@ import java.util.List;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-
-    EmployeeDao dao = DaoFactory.getInstance().getDaoType(DaoType.EMPLOYEE);
-
-
-
+    @Inject
+    EmployeeDao dao;
 
 
     @Override
