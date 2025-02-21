@@ -49,4 +49,9 @@ public class ProductOrderDaoImpl implements ProductOrderDao {
     public List<Order> getAll() {
         return List.of();
     }
+
+    @Override
+    public Order search(Integer integer) {
+        return null;
+    }
 }

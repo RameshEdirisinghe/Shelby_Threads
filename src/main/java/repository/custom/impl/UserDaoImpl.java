@@ -34,6 +34,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public UserEntity search(Integer integer) {
+        return null;
+    }
+
+    @Override
     public UserEntity LoginAuthenticate(String email, String password) throws SQLException {
 
             ResultSet rst = DBConnection.getInstance().getConnection().createStatement().executeQuery("Select * from User");

@@ -3,8 +3,6 @@ package repository.custom.impl;
 import DBConnection.DBConnection;
 import Entity.EmployeeEntity;
 import com.google.inject.Inject;
-import controller.user.UserController;
-import model.Employee;
 import model.EmployeeSales;
 import repository.custom.EmployeeDao;
 import repository.custom.UserDao;
@@ -176,6 +174,23 @@ public class EmployeeDaoImpl implements EmployeeDao {
             employeeList.add(new EmployeeEntity(rst.getInt(1), rst.getString(2), rst.getString(3), "null", rst.getString(4)));
         }
         return employeeList;
+    }
+
+    @Override
+    public EmployeeEntity search(Integer integer) {
+        try {
+            String query = "SELECT * FROM employee WHERE EmployeeID=?";
+            PreparedStatement stmt = DBConnection.getInstance().getConnection().prepareStatement(query);
+            stmt.setString(1, integer+""); // Set empId parameter
+            ResultSet rst = stmt.executeQuery();
+
+            if (rst.next()) {
+                return new EmployeeEntity(rst.getInt(1), rst.getString(2), rst.getString(3), "null", rst.getString(4));
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -58,7 +58,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean deletEmployee(Integer id) {
-        return dao.delete(id);
+        try {
+            return dao.delete(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -74,6 +78,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean updateEmployee(Employee employee) {
         return dao.update(employee.getId(),modelMapper.map(employee, EmployeeEntity.class));
+    }
+
+    @Override
+    public Employee searchEmployee(Integer empId) {
+        try {
+            return modelMapper.map(dao.search(empId), Employee.class);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

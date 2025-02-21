@@ -4,16 +4,12 @@ import DBConnection.DBConnection;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import controller.employee.EmployeeController;
-import controller.products.ProductsController;
-import controller.supplier.SupplierController;
 import animatefx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
@@ -32,18 +28,13 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import repository.DaoFactory;
-import repository.custom.OrderDao;
-import service.ServiceFactory;
 import service.custom.*;
 import util.AppModule;
-import util.DaoType;
-import util.ServiceType;
+
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.util.*;
 
 
@@ -52,8 +43,6 @@ public class HomeFormController implements Initializable {
     public Label lbltopic1;
     public AnchorPane lblPane1;
     public AnchorPane lblPane02;
-    public NumberAxis StackedAreaChartYAxis;
-    public NumberAxis StackedAreaChartXAxis;
 
     public AnchorPane pane2ndImgs;
     public AnchorPane pane1stImgs;
@@ -101,7 +90,6 @@ public class HomeFormController implements Initializable {
     public Label lbltotalCustomers;
     public Label lblOrdersCount;
     public Label lblSupplierCount;
-    public javafx.scene.chart.StackedAreaChart StackedAreaChart;
     public PieChart BestSaleProductPieChart1;
 
     private String currentImagePath;
@@ -214,35 +202,30 @@ public class HomeFormController implements Initializable {
             XYChart.Data<Number, String> data = new XYChart.Data<>(sales.getTotalSales(), sales.getEmployeeName());
             series.getData().add(data);
         }
-
         // Add series to the chart
         BestEmployeeChart.getData().add(series);
-
         // Change bar color to gray
         for (XYChart.Data<Number, String> data : series.getData()) {
             data.getNode().setStyle("-fx-bar-fill: gray;");
         }
     }
 
+    //load charts
     public void loadPieCharDahsboard() {
-
         List<PieChart.Data> pieChartDataList = homeService.getSeriesMap();
         BestSaleProductPieChart1.getData().clear();
         BestSaleProductPieChart1.getData().addAll(pieChartDataList);
         BestSaleProductPieChart1.setLegendVisible(false);
-
     }
 
     public void loadPieChartReports() {
-
         List<PieChart.Data> pieChartDataList = homeService.getSeriesMap();
         BestSaleProductPieChart.getData().clear();
         BestSaleProductPieChart.getData().addAll(pieChartDataList);
         BestSaleProductPieChart.setLegendVisible(false);
-
     }
 
-
+    //load comboBox
     public void reloadCmbSupplierItem() {
         ObservableList<String> supItem = FXCollections.observableArrayList();
         supItem.add("Full Suits");
@@ -293,7 +276,7 @@ public class HomeFormController implements Initializable {
         cmbReportType.setItems(reportType);
     }
 
-
+    //homeDashboard TopSelling products Animation
     public void btnOnClickActionNext(MouseEvent mouseEvent) {
         pane1stImgs.setVisible(false);     // Hide img1AnchorPane
         pane2ndImgs.setVisible(true);      // Show img3AnchorPane
@@ -308,6 +291,7 @@ public class HomeFormController implements Initializable {
         pane1stImgs.toFront();
     }
 
+    //TablesLoads
     public void loadTables() {
         ObservableList<Employee> employeeObservableList = FXCollections.observableArrayList();
         for (Employee employee : employeeService.getAll()) {
@@ -328,22 +312,20 @@ public class HomeFormController implements Initializable {
         tblInventory.setItems(productObservableList);
     }
 
+    //EmployeeCrud
     public void btnOnClickActionEmpDelete(ActionEvent actionEvent) {
-        if (employeeService.deletEmployee(Integer.parseInt(txtSearchEmpId.getText()))){
+        if (employeeService.deletEmployee(Integer.parseInt(txtSearchEmpId.getText()))) {
             loadTables();
             new Alert(Alert.AlertType.INFORMATION, "Employee Delete successfully").show();
-
         } else {
             new Alert(Alert.AlertType.INFORMATION, "Employee Delete fail").show();
         }
-
     }
 
     public void btnOnClickActionEmpAdd(ActionEvent actionEvent) {
         if (employeeService.addEmployee(new Employee(0, txtEmpName.getText(), txtEmpEmail.getText(), txtEmpPassword.getText(), txtEmpCompany.getText()))) {
             loadTables();
             new Alert(Alert.AlertType.INFORMATION, "Employee Added successfully").show();
-
         } else {
             new Alert(Alert.AlertType.INFORMATION, "Employee Added fail").show();
         }
@@ -353,130 +335,45 @@ public class HomeFormController implements Initializable {
         if (employeeService.updateEmployee(new Employee(Integer.parseInt(txtSearchEmpId.getText()), txtEmpName.getText(), txtEmpEmail.getText(), txtEmpPassword.getText(), txtEmpCompany.getText()))) {
             loadTables();
             new Alert(Alert.AlertType.INFORMATION, "Employee updated successfully").show();
-
         } else {
             new Alert(Alert.AlertType.INFORMATION, "Employee updated fail").show();
         }
     }
 
     public void btnOnClickActionEmpSearch(ActionEvent actionEvent) {
-        Employee employee = EmployeeController.getInstance().searchEmployee(txtSearchEmpId.getText());
-
+        Employee employee = employeeService.searchEmployee(Integer.parseInt(txtSearchEmpId.getText()));
         if (employee == null) {
             new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Employee Id").show();
         } else {
-
             txtEmpName.setText(employee.getName());
             txtEmpEmail.setText(employee.getEmail());
             txtEmpCompany.setText(employee.getCompany());
-
         }
     }
 
-    public void btnOnActionImportImg(ActionEvent actionEvent) throws IOException {
-
-        FileChooser chooser = new FileChooser();
-        FileChooser.ExtensionFilter exxtFilterJpg = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-        FileChooser.ExtensionFilter exxtFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-        chooser.getExtensionFilters().addAll(exxtFilterJpg, exxtFilterPNG);
-
-        File file = chooser.showOpenDialog(null);
-
-        if (file != null) {
-            currentImagePath = file.getAbsolutePath();
-            Image image = new Image(currentImagePath);
-            imgViewUpImg.setImage(image);
-        }
-
-    }
-
+    //productCrud
     public void btnOnClickActionAdd(ActionEvent actionEvent) {
-        if (ProductsController.getInstance().addProducts(new Product(0, txtProductName.getText(), cmbProductCategory.getSelectionModel().getSelectedItem().toString(), cmbProductSize.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(txtProductPrice.getText()), Integer.parseInt(txtProductQty.getText()), currentImagePath, cmbProductSupplier.getSelectionModel().getSelectedItem().toString()))) {
+        if (productService.addProducts(new Product(0, txtProductName.getText(), cmbProductCategory.getSelectionModel().getSelectedItem().toString(), cmbProductSize.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(txtProductPrice.getText()), Integer.parseInt(txtProductQty.getText()), currentImagePath, cmbProductSupplier.getSelectionModel().getSelectedItem().toString()))) {
             new Alert(Alert.AlertType.INFORMATION, "Employee Added successfully").show();
+            loadTables();
+            txtProductName.setText("");
+            txtProductPrice.setText("");
+            txtProductQty.setText("");
+            imgViewUpImg.setImage(null);
         } else {
             new Alert(Alert.AlertType.INFORMATION, "Employee Added Fail").show();
         }
-
-    }
-
-    public void btnOnclickActionPlaceOrder(ActionEvent actionEvent) {
-        Stage st = new Stage();
-        try {
-            Injector injector = Guice.createInjector(new AppModule());
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/EmployeeDashboard.fxml"));
-            loader.setController(injector.getInstance(EmployeeDashboardFormController.class));
-            st.setScene(new Scene(loader.load()));
-            st.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void onClickActionSearchSupplier(ActionEvent actionEvent) {
-        Supplier supplier = SupplierController.getInstance().searchSupplier(txtSearchSupplierId.getText());
-
-        if (supplier == null) {
-            new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Employee Id").show();
-        } else {
-
-            txtSupplierName.setText(supplier.getName());
-            txtSupplierCompany.setText(supplier.getCompany());
-            txtSupplierEmail.setText(supplier.getEmail());
-            txtSupplierEmail.setText(supplier.getEmail());
-            cmbSupplierProduct.setValue(supplier.getItem());
-
-        }
-    }
-
-    public void btnOnClickActionUpdate(ActionEvent actionEvent) {
-        if (txtSupplierName.getText() != null && txtSupplierCompany.getText() != null && txtSupplierEmail.getText() != null && txtSearchSupplierId.getText() != null) {
-            if (SupplierController.getInstance().updateSupplier(new Supplier(Integer.parseInt(txtSearchSupplierId.getText()), txtSupplierName.getText(), txtSupplierEmail.getText(), txtSupplierCompany.getText(), cmbSupplierProduct.getSelectionModel().getSelectedItem().toString()))) {
-                loadTables();
-                new Alert(Alert.AlertType.INFORMATION, "Supplier updated successfully").show();
-
-            } else {
-                new Alert(Alert.AlertType.INFORMATION, "Supplier updated fail").show();
-            }
-        } else {
-            new Alert(Alert.AlertType.INFORMATION, "Please enter All Details").show();
-        }
-    }
-
-    public void btnonClickActionDelete(ActionEvent actionEvent) {
-        if (txtSearchSupplierId.getText() != null) {
-            if (SupplierController.getInstance().deleteSupplier(txtSearchSupplierId.getText())) {
-                loadTables();
-                new Alert(Alert.AlertType.INFORMATION, "Supplier Delete successfully").show();
-
-            } else {
-                new Alert(Alert.AlertType.INFORMATION, "Supplier Delete fail").show();
-            }
-        }
-
-    }
-
-    public void btnonClickActionAdd(ActionEvent actionEvent) {
-        if (txtSupplierName.getText() != null && txtSupplierCompany.getText() != null && txtSupplierEmail.getText() != null && txtSearchSupplierId.getText() != null) {
-            if (SupplierController.getInstance().addSupplier(new Supplier(0, txtSupplierName.getText(), txtSupplierEmail.getText(), txtSupplierCompany.getText(), cmbSupplierProduct.getSelectionModel().getSelectedItem().toString()))) {
-                loadTables();
-                new Alert(Alert.AlertType.INFORMATION, "Supplier added successfully").show();
-
-            } else {
-                new Alert(Alert.AlertType.INFORMATION, "Supplier added fail").show();
-            }
-        } else {
-            new Alert(Alert.AlertType.INFORMATION, "Please enter All Details").show();
-        }
-
     }
 
     public void btnOnClickActionProductDelete(ActionEvent actionEvent) {
-
         if (txtProductId.getText() != null) {
-            if (ProductsController.getInstance().deleteProduct(txtProductId.getText())) {
+            if (productService.deleteProduct(Integer.parseInt(txtProductId.getText()))) {
                 loadTables();
+                txtProductName.setText("");
+                txtProductPrice.setText("");
+                txtProductQty.setText("");
+                imgViewUpImg.setImage(null);
                 new Alert(Alert.AlertType.INFORMATION, "Supplier Delete successfully").show();
-
             } else {
                 new Alert(Alert.AlertType.INFORMATION, "Supplier Delete fail").show();
             }
@@ -484,12 +381,12 @@ public class HomeFormController implements Initializable {
     }
 
     public void btnOnClickActionProductSearch(ActionEvent actionEvent) {
-        Product product = ProductsController.getInstance().searchProduct(txtProductId.getText());
+        Product product = productService.searchProduct(Integer.parseInt(txtProductId.getText()));
 
         if (product == null) {
             new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Employee Id").show();
         } else {
-
+            loadTables();
             txtProductName.setText(product.getName());
             txtProductPrice.setText(product.getPrice() + "");
             txtProductQty.setText(product.getQty() + "");
@@ -504,8 +401,12 @@ public class HomeFormController implements Initializable {
 
     public void btnOnClickActionProductUpdate(ActionEvent actionEvent) {
         if (txtProductId.getText() != null && txtProductName.getText() != null && txtProductQty.getText() != null && txtProductPrice.getText() != null) {
-            if (ProductsController.getInstance().updateProduct(new Product(Integer.parseInt(txtProductId.getText()), txtProductName.getText(), cmbProductCategory.getSelectionModel().getSelectedItem().toString(), cmbProductSize.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(txtProductPrice.getText()), Integer.parseInt(txtProductQty.getText()), currentImagePath, cmbProductSupplier.getSelectionModel().getSelectedItem().toString()))) {
+            if (productService.updateProduct(new Product(Integer.parseInt(txtProductId.getText()), txtProductName.getText(), cmbProductCategory.getSelectionModel().getSelectedItem().toString(), cmbProductSize.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(txtProductPrice.getText()), Integer.parseInt(txtProductQty.getText()), currentImagePath, cmbProductSupplier.getSelectionModel().getSelectedItem().toString()))) {
                 loadTables();
+                txtProductName.setText("");
+                txtProductPrice.setText("");
+                txtProductQty.setText("");
+                imgViewUpImg.setImage(null);
                 new Alert(Alert.AlertType.INFORMATION, "Product updated successfully").show();
 
             } else {
@@ -516,7 +417,87 @@ public class HomeFormController implements Initializable {
         }
     }
 
-    public void btnclickOnActionPrint(ActionEvent actionEvent) {
+    //SupplierCrud
+    public void btnOnActionImportImg(ActionEvent actionEvent) throws IOException {
+        FileChooser chooser = new FileChooser();
+        FileChooser.ExtensionFilter exxtFilterJpg = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+        FileChooser.ExtensionFilter exxtFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+        chooser.getExtensionFilters().addAll(exxtFilterJpg, exxtFilterPNG);
+
+        File file = chooser.showOpenDialog(null);
+        if (file != null) {
+            currentImagePath = file.getAbsolutePath();
+            Image image = new Image(currentImagePath);
+            imgViewUpImg.setImage(image);
+        }
+    }
+
+    public void onClickActionSearchSupplier(ActionEvent actionEvent) {
+        Supplier supplier = supplierService.searchSupplier(Integer.parseInt(txtSearchSupplierId.getText()));
+
+        if (supplier == null) {
+            new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Supplier Id").show();
+        } else {
+            txtSupplierName.setText(supplier.getName());
+            txtSupplierCompany.setText(supplier.getCompany());
+            txtSupplierEmail.setText(supplier.getEmail());
+            txtSupplierEmail.setText(supplier.getEmail());
+            cmbSupplierProduct.setValue(supplier.getItem());
+
+        }
+    }
+
+    public void btnOnClickActionUpdate(ActionEvent actionEvent) {
+        if (txtSupplierName.getText() != null && txtSupplierCompany.getText() != null && txtSupplierEmail.getText() != null && txtSearchSupplierId.getText() != null) {
+            if (supplierService.updateSupplier(new Supplier(Integer.parseInt(txtSearchSupplierId.getText()), txtSupplierName.getText(), txtSupplierEmail.getText(), txtSupplierCompany.getText(), cmbSupplierProduct.getSelectionModel().getSelectedItem().toString()))) {
+                loadTables();
+                txtSupplierName.setText(null);
+                txtSupplierCompany.setText(null);
+                txtSupplierEmail.setText(null);
+                txtSupplierEmail.setText(null);
+                new Alert(Alert.AlertType.INFORMATION, "Supplier updated successfully").show();
+
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "Supplier updated fail").show();
+            }
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "Please enter All Details").show();
+        }
+    }
+
+    public void btnonClickActionDelete(ActionEvent actionEvent) {
+        if (txtSearchSupplierId.getText() != null) {
+            if (supplierService.deleteSupplier(Integer.parseInt(txtSearchSupplierId.getText()))) {
+                loadTables();
+                txtSupplierName.setText(null);
+                txtSupplierCompany.setText(null);
+                txtSupplierEmail.setText(null);
+                txtSupplierEmail.setText(null);
+                new Alert(Alert.AlertType.INFORMATION, "Supplier Delete successfully").show();
+
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "Supplier Delete fail").show();
+            }
+        }
+
+    }
+
+    public void btnonClickActionAdd(ActionEvent actionEvent) {
+        if (txtSupplierName.getText() != null && txtSupplierCompany.getText() != null && txtSupplierEmail.getText() != null && txtSearchSupplierId.getText() != null) {
+            if (supplierService.addSupplier(new Supplier(0, txtSupplierName.getText(), txtSupplierEmail.getText(), txtSupplierCompany.getText(), cmbSupplierProduct.getSelectionModel().getSelectedItem().toString()))) {
+                loadTables();
+                txtSupplierName.setText(null);
+                txtSupplierCompany.setText(null);
+                txtSupplierEmail.setText(null);
+                txtSupplierEmail.setText(null);
+                new Alert(Alert.AlertType.INFORMATION, "Supplier added successfully").show();
+
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "Supplier added fail").show();
+            }
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "Please enter All Details").show();
+        }
 
     }
 
@@ -538,6 +519,24 @@ public class HomeFormController implements Initializable {
         }
     }
 
+    public void btnOnclickActionPlaceOrder(ActionEvent actionEvent) {
+        Stage st = new Stage();
+        try {
+            Injector injector = Guice.createInjector(new AppModule());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/EmployeeDashboard.fxml"));
+            loader.setController(injector.getInstance(EmployeeDashboardFormController.class));
+            st.setScene(new Scene(loader.load()));
+            st.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void btnclickOnActionPrintReport(ActionEvent actionEvent) {
     }
+
+    public void btnclickOnActionPrint(ActionEvent actionEvent) {
+
+    }
+
 }

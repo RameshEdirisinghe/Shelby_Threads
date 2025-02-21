@@ -15,4 +15,5 @@ public interface EmployeeService {
     boolean deletEmployee(Integer id);
     boolean addEmployee(Employee employee);
     boolean updateEmployee(Employee employee);
+    Employee searchEmployee(Integer empId);
 }

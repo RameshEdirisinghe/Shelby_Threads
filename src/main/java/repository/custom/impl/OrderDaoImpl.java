@@ -72,6 +72,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    public Order search(Integer integer) {
+        return null;
+    }
+
+    @Override
     public String getOrderId() throws SQLException {
 
         ResultSet rst = DBConnection.getInstance().getConnection().createStatement().executeQuery("SELECT OrderID FROM orders ORDER BY OrderID DESC LIMIT 1");

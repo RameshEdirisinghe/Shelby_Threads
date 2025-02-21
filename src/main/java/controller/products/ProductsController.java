@@ -107,10 +107,8 @@ public class ProductsController {
     public boolean deleteProduct(String productId){
         Connection connection = DBConnection.getInstance().getConnection();
         try {
-
             PreparedStatement stm = connection.prepareStatement("DELETE FROM product WHERE productId=?");
             stm.setString(1, productId);
-
             return stm.executeUpdate()>0;
 
         } catch (SQLException e) {
@@ -122,9 +120,7 @@ public class ProductsController {
     public boolean updateProduct(Product product) {
         Connection connection = DBConnection.getInstance().getConnection();
         try {
-
-
-            PreparedStatement stm = connection.prepareStatement("UPDATE product SET Name = ?, Category = ?, Size = ?,Price =?,Quantity =?,Image=? WHERE ProductID =?;");
+            PreparedStatement stm = connection.prepareStatement("UPDATE product SET ProductName = ?, Category = ?, Size = ?,Price =?,Quantity =?,Image=? WHERE ProductID =?;");
             stm.setString(1, product.getName());
             stm.setString(2, product.getCategory());
             stm.setString(3, product.getSize());
@@ -134,11 +130,8 @@ public class ProductsController {
             stm.setInt(7, product.getId());
 
             return stm.executeUpdate()>0;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }
