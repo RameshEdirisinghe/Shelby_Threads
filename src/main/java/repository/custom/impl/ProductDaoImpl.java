@@ -3,16 +3,21 @@ package repository.custom.impl;
 import DBConnection.DBConnection;
 import model.CartDetails;
 import model.Order;
+import model.Product;
 import repository.custom.ProductDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoImpl implements ProductDao {
+
+
     @Override
-    public boolean save(Order entity) throws SQLException {
+    public boolean updateStock(Order entity) {
         for (CartDetails orderDetail : entity.getCartItems()) {
             String SQL = "UPDATE product SET Quantity=Quantity-? WHERE ProductName=?";
             try {
@@ -34,7 +39,12 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public boolean update(Integer integer, Order entity) {
+    public boolean save(Product entity) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean update(Integer integer, Product entity) {
         return false;
     }
 
@@ -44,7 +54,12 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Order> getAll() {
-        return List.of();
+    public List<Product> getAll() throws SQLException {
+        List<Product> productList = new ArrayList<>();
+        ResultSet rst = DBConnection.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM Product");
+        while (rst.next()) {
+            productList.add(new Product(rst.getInt(1),rst.getString(2), rst.getString(3),rst.getString(4), rst.getDouble(5),rst.getInt(6), rst.getString(7), rst.getString(8) ));
+        }
+        return productList;
     }
 }

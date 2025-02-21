@@ -132,17 +132,5 @@ public class SupplierController {
 
     }
 
-    public int getAllSupplierCount(){
 
-
-        try {
-            ResultSet rst = DBConnection.getInstance().getConnection().createStatement().executeQuery("SELECT COUNT(*) AS total_suppliers FROM supplier;");
-            while (rst.next()) {
-                return (rst.getInt(1));
-            }
-            return 0;
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-    }
 }

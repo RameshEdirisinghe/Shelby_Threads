@@ -17,4 +17,9 @@ public class OrderServiceImpl implements OrderService {
         return  orderDao.save(order);
 
     }
+
+    @Override
+    public int getAllOrderCount() {
+        return orderDao.getAllOrderCount();
+    }
 }

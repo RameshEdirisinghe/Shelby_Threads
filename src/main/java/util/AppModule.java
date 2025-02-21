@@ -2,20 +2,10 @@ package util;
 
 import com.google.inject.AbstractModule;
 import model.User;
-import repository.custom.EmployeeDao;
-import repository.custom.OrderDao;
-import repository.custom.UserDao;
-import repository.custom.impl.EmployeeDaoImpl;
-import repository.custom.impl.OrderDaoImpl;
-import repository.custom.impl.UserDaoImpl;
-import service.custom.CartService;
-import service.custom.EmployeeService;
-import service.custom.OrderService;
-import service.custom.UserService;
-import service.custom.impl.CartServiceImpl;
-import service.custom.impl.EmployeeServiceImpl;
-import service.custom.impl.OrderServiceImpl;
-import service.custom.impl.UserServiceImpl;
+import repository.custom.*;
+import repository.custom.impl.*;
+import service.custom.*;
+import service.custom.impl.*;
 
 public class AppModule extends AbstractModule{
 
@@ -29,5 +19,12 @@ public class AppModule extends AbstractModule{
         bind(UserDao.class).to(UserDaoImpl.class);
         bind(OrderDao.class).to(OrderDaoImpl.class);
         bind(EmployeeService.class).to(EmployeeServiceImpl.class);
+        bind(HomeService.class).to(HomeServiceImpl.class);
+        bind(HomeDao.class).to(HomeDaoImpl.class);
+        bind(CustomerService.class).to(CustomerServiceImpl.class);
+        bind(SupplierService.class).to(SupplierServiceImpl.class);
+        bind(SupplierDao.class).to(SupplierDaoImpl.class);
+        bind(ProductDao.class).to(ProductDaoImpl.class);
+        bind(ProductService.class).to(ProductServiceImpl.class);
     }
 }

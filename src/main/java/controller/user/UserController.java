@@ -50,7 +50,7 @@ public class UserController {
 
     public boolean deleteUser(String userName){
         try {
-            PreparedStatement stm = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM user WHERE name=?");
+            PreparedStatement stm = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM user WHERE UserID=?");
             stm.setString(1, userName);
 
             return stm.executeUpdate()>0;

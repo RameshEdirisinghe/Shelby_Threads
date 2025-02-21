@@ -147,12 +147,10 @@ public class CartController implements Initializable {
         ObservableList<String> paymentTypes = service.getCmbPaymentItems();
         cmbPaymentType.setItems(paymentTypes);
 
-        try {
+
             ObservableList<Integer> employeeId = service.getCmbEmployeeIds();
             cmbEmployeeId.setItems(employeeId);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 
     public void loadTable(){

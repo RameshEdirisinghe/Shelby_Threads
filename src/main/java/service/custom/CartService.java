@@ -18,7 +18,7 @@ public interface CartService extends SuperService {
 
     ObservableList<String> getCmbPaymentItems();
 
-    ObservableList<Integer> getCmbEmployeeIds() throws SQLException;
+    ObservableList<Integer> getCmbEmployeeIds();
 
     String getOrderId() throws SQLException;
 }

@@ -164,7 +164,7 @@ public class CartServiceImpl implements CartService {
     EmployeeService employeeService;
 
     @Override
-    public ObservableList<Integer> getCmbEmployeeIds() throws SQLException {
+    public ObservableList<Integer> getCmbEmployeeIds(){
 
         ObservableList<Integer> empIds = FXCollections.observableArrayList();
         List<Integer> Ids = employeeService.getEmpIds();

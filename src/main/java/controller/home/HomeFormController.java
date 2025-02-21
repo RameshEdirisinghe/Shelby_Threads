@@ -2,6 +2,7 @@ package controller.home;
 
 import DBConnection.DBConnection;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import controller.employee.EmployeeController;
 import controller.products.ProductsController;
@@ -26,10 +27,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Employee;
-import model.Product;
-import model.Supplier;
-import model.User;
+import model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -37,7 +35,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import repository.DaoFactory;
 import repository.custom.OrderDao;
 import service.ServiceFactory;
-import service.custom.CustomerService;
+import service.custom.*;
 import util.AppModule;
 import util.DaoType;
 import util.ServiceType;
@@ -56,7 +54,7 @@ public class HomeFormController implements Initializable {
     public AnchorPane lblPane02;
     public NumberAxis StackedAreaChartYAxis;
     public NumberAxis StackedAreaChartXAxis;
-    public javafx.scene.chart.StackedAreaChart StackedAreaChart;
+
     public AnchorPane pane2ndImgs;
     public AnchorPane pane1stImgs;
     public TableColumn colEmpEmail;
@@ -103,6 +101,8 @@ public class HomeFormController implements Initializable {
     public Label lbltotalCustomers;
     public Label lblOrdersCount;
     public Label lblSupplierCount;
+    public javafx.scene.chart.StackedAreaChart StackedAreaChart;
+    public PieChart BestSaleProductPieChart1;
 
     private String currentImagePath;
 
@@ -113,9 +113,27 @@ public class HomeFormController implements Initializable {
     private static final String[] PIE_COLORS = {"#6c7b8b", "#8B7D6B", "#6A6A4F", "#5a6e6c"};
 
 
-    public static void setUserId(User user){
-        String userId=user.getUserId()+"";
+    public static void setUserId(User user) {
+        String userId = user.getUserId() + "";
     }
+
+    @Inject
+    HomeService homeService;
+
+    @Inject
+    EmployeeService employeeService;
+
+    @Inject
+    CustomerService customerService;
+
+    @Inject
+    SupplierService supplierService;
+
+    @Inject
+    OrderService orderService;
+
+    @Inject
+    ProductService productService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -128,102 +146,6 @@ public class HomeFormController implements Initializable {
         ZoomInRight ZoomInRightAnimation = new ZoomInRight(lblPane02);
         ZoomInRightAnimation.setSpeed(0.25);
         ZoomInRightAnimation.play();
-
-
-        Map<String, XYChart.Series<Number, Number>> seriesMap = new HashMap<>();
-
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             Statement statement = connection.createStatement()) {
-
-            // Step 1: Get Top 3 Products
-            String topProductsQuery = """
-            WITH TopProducts AS (
-                SELECT ProductName, SUM(Quantity) AS total_sales
-                FROM orderProduct
-                JOIN orders ON orderProduct.OrderID = orders.OrderID
-                WHERE OrderDate >= CURDATE() - INTERVAL 10 DAY
-                GROUP BY ProductName
-                ORDER BY total_sales DESC
-                LIMIT 3
-            )
-            SELECT ProductName FROM TopProducts;
-            """;
-            ResultSet topProductsResult = statement.executeQuery(topProductsQuery);
-
-            // Store top 3 product names
-            List<String> topProducts = new ArrayList<>();
-            while (topProductsResult.next()) {
-                topProducts.add(topProductsResult.getString("ProductName"));
-            }
-
-            // Step 2: Fetch Sales Data for the Top 3 Products
-            String salesQuery = """
-            WITH TopProducts AS (
-                SELECT ProductName, SUM(Quantity) AS total_sales
-                FROM orderProduct
-                JOIN orders ON orderProduct.OrderID = orders.OrderID
-                WHERE OrderDate >= CURDATE() - INTERVAL 10 DAY
-                GROUP BY ProductName
-                ORDER BY total_sales DESC
-                LIMIT 3
-            )
-            SELECT DATE(OrderDate) AS order_day, orderProduct.ProductName, SUM(orderProduct.Quantity) AS sales
-            FROM orderProduct
-            JOIN orders ON orderProduct.OrderID = orders.OrderID
-            WHERE orderProduct.ProductName IN (SELECT ProductName FROM TopProducts)
-            AND OrderDate >= CURDATE() - INTERVAL 10 DAY
-            GROUP BY order_day, orderProduct.ProductName
-            ORDER BY order_day, orderProduct.ProductName;
-            """;
-
-            ResultSet salesResult = statement.executeQuery(salesQuery);
-
-            // Initialize series for each product
-            for (String product : topProducts) {
-                XYChart.Series<Number, Number> series = new XYChart.Series<>();
-                series.setName(product);
-                seriesMap.put(product, series);
-            }
-
-            // Store sales data
-            Map<Integer, Map<String, Integer>> salesData = new HashMap<>();
-            int minDay = Integer.MAX_VALUE, maxDay = Integer.MIN_VALUE, maxSales = 1;
-
-            while (salesResult.next()) {
-                int day = salesResult.getDate("order_day").toLocalDate().getDayOfMonth();
-                String productName = salesResult.getString("ProductName");
-                int sales = salesResult.getInt("sales");
-
-                salesData.computeIfAbsent(day, k -> new HashMap<>()).put(productName, sales);
-                minDay = Math.min(minDay, day);
-                maxDay = Math.max(maxDay, day);
-                maxSales = Math.max(maxSales, sales);
-            }
-
-            // Populate data (Fill missing days with 0)
-            for (int day = minDay; day <= maxDay; day++) {
-                for (String product : topProducts) {
-                    int sales = salesData.getOrDefault(day, new HashMap<>()).getOrDefault(product, 0);
-                    seriesMap.get(product).getData().add(new XYChart.Data<>(day, sales));
-                }
-            }
-
-            // Clear old data & add new series
-            StackedAreaChart.getData().clear();
-            StackedAreaChart.getData().addAll(seriesMap.values());
-
-
-                // Adjust Axis Dynamically
-                ((NumberAxis) StackedAreaChartXAxis).setLowerBound(minDay); // Start at first recorded sale
-                ((NumberAxis) StackedAreaChartXAxis).setUpperBound(maxDay + 1); // Stop at last sale
-                ((NumberAxis) StackedAreaChartYAxis).setLowerBound(0);
-                ((NumberAxis) StackedAreaChartYAxis).setUpperBound(Math.max(10, maxSales + 36)); // Ensure visibility
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-
 
         //set Tables Cols-Employee
         colEmpId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -238,7 +160,6 @@ public class HomeFormController implements Initializable {
         colSupilerEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colSupplierItem.setCellValueFactory(new PropertyValueFactory<>("item"));
 
-
         //set Tables Cols-Product
         colProductId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colProductName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -247,27 +168,28 @@ public class HomeFormController implements Initializable {
         colProductStock.setCellValueFactory(new PropertyValueFactory<>("qty"));
         colProductPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colProductSupplierName.setCellValueFactory(new PropertyValueFactory<>("Suppler"));
+
         loadTables();
 
         //set cmbProductCategory values
         reloadCmbCat();
         reloadCmbsize();
         reloadCmbSupplier();
-
-        //set cmbSupplierproduct values
         reloadCmbSupplierItem();
 
         setCmbReportType();
 
+        loadPieCharDahsboard();
+        loadPieChartReports();
+        loadLineChart();
 
+        lbltotalCustomers.setText(customerService.getCustomersCount() + "");
+        lblSupplierCount.setText(supplierService.getAllSupplierCount() + "");
+        lblOrdersCount.setText(orderService.getAllOrderCount() + "");
 
-        String query = "SELECT e.Name AS EmployeeName, SUM(o.TotalCost) AS TotalSales\n" +
-                "FROM orders o\n" +
-                "JOIN employee e ON o.EmployeeID = e.EmployeeID\n" +
-                "GROUP BY e.Name\n" +
-                "ORDER BY TotalSales DESC;";
+    }
 
-        // Set up the X and Y axes for BarChart
+    public void loadLineChart() {
         NumberAxis xAxis = (NumberAxis) BestEmployeeChart.getXAxis();
         xAxis.setLabel("Total Sales");
         xAxis.setTickUnit(250); // Set the tick unit to 250
@@ -281,85 +203,47 @@ public class HomeFormController implements Initializable {
         // Set the chart title color
         BestEmployeeChart.setStyle("-fx-text-fill: #fffff0;");
 
-        // Fetch data and add to the chart
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
+        // Fetch and display data
+        List<EmployeeSales> salesData = employeeService.getTopEmployees();
 
-            XYChart.Series<Number, String> series = new XYChart.Series<>();
-//            series.setName("Sales by Employees");
-            BestEmployeeChart.setLegendVisible(false);
+        // Add data to the chart
+        XYChart.Series<Number, String> series = new XYChart.Series<>();
+        BestEmployeeChart.setLegendVisible(false);
 
-
-            // Populate series with data
-            while (resultSet.next()) {
-                String employeeName = resultSet.getString("EmployeeName");
-                double totalSales = resultSet.getDouble("TotalSales");
-
-                // Add data to the chart (employee name and their total sales)
-                XYChart.Data<Number, String> data = new XYChart.Data<>(totalSales, employeeName);
-                series.getData().add(data);
-            }
-
-            // Add series to the chart
-            BestEmployeeChart.getData().add(series);
-
-            // Change bar color to gray
-            for (XYChart.Data<Number, String> data : series.getData()) {
-                data.getNode().setStyle("-fx-bar-fill: gray;");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (EmployeeSales sales : salesData) {
+            XYChart.Data<Number, String> data = new XYChart.Data<>(sales.getTotalSales(), sales.getEmployeeName());
+            series.getData().add(data);
         }
 
-        String query1 = "SELECT op.ProductName, SUM(op.Quantity) AS TotalSold " +
-                "FROM OrderProduct op " +
-                "GROUP BY op.ProductName " +
-                "ORDER BY TotalSold DESC";
+        // Add series to the chart
+        BestEmployeeChart.getData().add(series);
 
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(query1);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            // Clear existing data in PieChart
-            BestSaleProductPieChart.getData().clear();
-
-            int colorIndex = 0;
-            while (resultSet.next()) {
-                String productName = resultSet.getString("ProductName");
-                int totalSold = resultSet.getInt("TotalSold");
-
-                // Add data with original label
-                PieChart.Data slice = new PieChart.Data(productName, totalSold);
-                BestSaleProductPieChart.getData().add(slice);
-                BestSaleProductPieChart.setLegendVisible(false);
-
-                // Apply custom color (loop through colors)
-                String color = PIE_COLORS[colorIndex % PIE_COLORS.length];
-                slice.getNode().setStyle("-fx-pie-color: " + color + ";");
-
-                colorIndex++;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Change bar color to gray
+        for (XYChart.Data<Number, String> data : series.getData()) {
+            data.getNode().setStyle("-fx-bar-fill: gray;");
         }
+    }
 
-        CustomerService cuService=ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
+    public void loadPieCharDahsboard() {
 
-        lbltotalCustomers.setText(cuService.getCustomersCount()+"");
-
-        lblSupplierCount.setText(SupplierController.getInstance().getAllSupplierCount()+"");
-
-        OrderDao order = DaoFactory.getInstance().getDaoType(DaoType.ORDER);
-        lblOrdersCount.setText(order.getAllOrderCount()+"");
-
-
+        List<PieChart.Data> pieChartDataList = homeService.getSeriesMap();
+        BestSaleProductPieChart1.getData().clear();
+        BestSaleProductPieChart1.getData().addAll(pieChartDataList);
+        BestSaleProductPieChart1.setLegendVisible(false);
 
     }
 
-    public void reloadCmbSupplierItem(){
+    public void loadPieChartReports() {
+
+        List<PieChart.Data> pieChartDataList = homeService.getSeriesMap();
+        BestSaleProductPieChart.getData().clear();
+        BestSaleProductPieChart.getData().addAll(pieChartDataList);
+        BestSaleProductPieChart.setLegendVisible(false);
+
+    }
+
+
+    public void reloadCmbSupplierItem() {
         ObservableList<String> supItem = FXCollections.observableArrayList();
         supItem.add("Full Suits");
         supItem.add("Jackets");
@@ -367,32 +251,28 @@ public class HomeFormController implements Initializable {
         supItem.add("Cap/Hats");
         supItem.add("Watch");
 
-
         cmbSupplierProduct.setItems(supItem);
     }
 
-    public void reloadCmbCat(){
+    public void reloadCmbCat() {
         ObservableList<String> cat = FXCollections.observableArrayList();
         cat.add("Ladies");
         cat.add("Gents");
         cat.add("Kids");
 
-
         cmbProductCategory.setItems(cat);
     }
 
-    public void reloadCmbSupplier(){
+    public void reloadCmbSupplier() {
         ObservableList<String> sup = FXCollections.observableArrayList();
-        for (String supplierName : SupplierController.getInstance().getAllSupplierNames()) {
+        for (String supplierName : supplierService.getAllSupplierNames()) {
             sup.add(supplierName);
         }
-
-
         cmbProductSupplier.setItems(sup);
     }
 
 
-    public void reloadCmbsize(){
+    public void reloadCmbsize() {
         ObservableList<String> size = FXCollections.observableArrayList();
         size.add("Small");
         size.add("Medium");
@@ -400,11 +280,10 @@ public class HomeFormController implements Initializable {
         size.add("XL");
         size.add("XXL");
 
-
         cmbProductSize.setItems(size);
     }
 
-    public void setCmbReportType(){
+    public void setCmbReportType() {
         ObservableList<String> reportType = FXCollections.observableArrayList();
         reportType.add("Last 10 Days Orders");
         reportType.add("Last 30 Days Orders");
@@ -413,7 +292,6 @@ public class HomeFormController implements Initializable {
 
         cmbReportType.setItems(reportType);
     }
-
 
 
     public void btnOnClickActionNext(MouseEvent mouseEvent) {
@@ -430,69 +308,68 @@ public class HomeFormController implements Initializable {
         pane1stImgs.toFront();
     }
 
-    public void loadTables(){
+    public void loadTables() {
         ObservableList<Employee> employeeObservableList = FXCollections.observableArrayList();
-        for (Employee employee : EmployeeController.getInstance().getAllEmployee()) {
+        for (Employee employee : employeeService.getAll()) {
             employeeObservableList.add(employee);
         }
         tblEmployee.setItems(employeeObservableList);
 
         ObservableList<Supplier> supplierObservableList = FXCollections.observableArrayList();
-        for (Supplier supplier : SupplierController.getInstance().getAllSuppliers()) {
+        for (Supplier supplier : supplierService.getAll()) {
             supplierObservableList.add(supplier);
         }
         tblSupplier.setItems(supplierObservableList);
 
-
         ObservableList<Product> productObservableList = FXCollections.observableArrayList();
-        for (Product product : ProductsController.getInstance().getAllProduct()) {
+        for (Product product : productService.getAll()) {
             productObservableList.add(product);
         }
         tblInventory.setItems(productObservableList);
     }
 
     public void btnOnClickActionEmpDelete(ActionEvent actionEvent) {
-        if (EmployeeController.getInstance().deleteEmployee(txtSearchEmpId.getText(),txtEmpName.getText())){
+        if (EmployeeController.getInstance().deleteEmployee(txtSearchEmpId.getText(), txtEmpName.getText())) {
             loadTables();
-            new Alert(Alert.AlertType.INFORMATION,"Employee Delete successfully").show();
+            new Alert(Alert.AlertType.INFORMATION, "Employee Delete successfully").show();
 
-        }else {
-            new Alert(Alert.AlertType.INFORMATION,"Employee Delete fail").show();
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "Employee Delete fail").show();
         }
 
     }
 
     public void btnOnClickActionEmpAdd(ActionEvent actionEvent) {
-        if (EmployeeController.getInstance().addEmployee(new Employee(0,txtEmpName.getText(),txtEmpEmail.getText(),txtEmpPassword.getText(),txtEmpCompany.getText()))){
+        if (EmployeeController.getInstance().addEmployee(new Employee(0, txtEmpName.getText(), txtEmpEmail.getText(), txtEmpPassword.getText(), txtEmpCompany.getText()))) {
             loadTables();
-            new Alert(Alert.AlertType.INFORMATION,"Employee Added successfully").show();
+            new Alert(Alert.AlertType.INFORMATION, "Employee Added successfully").show();
 
-        }else {
-            new Alert(Alert.AlertType.INFORMATION,"Employee Added fail").show();
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "Employee Added fail").show();
         }
     }
 
     public void btnOnClickActionEmpUpdate(ActionEvent actionEvent) {
-        if (EmployeeController.getInstance().updateEmployee(new Employee( Integer.parseInt(txtSearchEmpId.getText()),txtEmpName.getText(),txtEmpEmail.getText(),txtEmpPassword.getText(),txtEmpCompany.getText()))){
+        if (EmployeeController.getInstance().updateEmployee(new Employee(Integer.parseInt(txtSearchEmpId.getText()), txtEmpName.getText(), txtEmpEmail.getText(), txtEmpPassword.getText(), txtEmpCompany.getText()))) {
             loadTables();
-            new Alert(Alert.AlertType.INFORMATION,"Employee updated successfully").show();
+            new Alert(Alert.AlertType.INFORMATION, "Employee updated successfully").show();
 
-        }else {
-            new Alert(Alert.AlertType.INFORMATION,"Employee updated fail").show();
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "Employee updated fail").show();
         }
     }
 
     public void btnOnClickActionEmpSearch(ActionEvent actionEvent) {
         Employee employee = EmployeeController.getInstance().searchEmployee(txtSearchEmpId.getText());
 
-        if (employee==null){
-            new Alert(Alert.AlertType.INFORMATION,"Please Enter Valid Employee Id").show();
-        }else {
+        if (employee == null) {
+            new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Employee Id").show();
+        } else {
 
             txtEmpName.setText(employee.getName());
             txtEmpEmail.setText(employee.getEmail());
             txtEmpCompany.setText(employee.getCompany());
-            
+
         }
     }
 
@@ -506,18 +383,18 @@ public class HomeFormController implements Initializable {
         File file = chooser.showOpenDialog(null);
 
         if (file != null) {
-                currentImagePath = file.getAbsolutePath();
-                Image image = new Image(currentImagePath);
-                imgViewUpImg.setImage(image);
+            currentImagePath = file.getAbsolutePath();
+            Image image = new Image(currentImagePath);
+            imgViewUpImg.setImage(image);
         }
 
     }
 
     public void btnOnClickActionAdd(ActionEvent actionEvent) {
-        if (ProductsController.getInstance().addProducts(new Product(0,txtProductName.getText(),cmbProductCategory.getSelectionModel().getSelectedItem().toString(),cmbProductSize.getSelectionModel().getSelectedItem().toString(),Double.parseDouble(txtProductPrice.getText()),Integer.parseInt(txtProductQty.getText()),currentImagePath,cmbProductSupplier.getSelectionModel().getSelectedItem().toString()))){
-            new Alert(Alert.AlertType.INFORMATION,"Employee Added successfully").show();
-        }else{
-            new Alert(Alert.AlertType.INFORMATION,"Employee Added Fail").show();
+        if (ProductsController.getInstance().addProducts(new Product(0, txtProductName.getText(), cmbProductCategory.getSelectionModel().getSelectedItem().toString(), cmbProductSize.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(txtProductPrice.getText()), Integer.parseInt(txtProductQty.getText()), currentImagePath, cmbProductSupplier.getSelectionModel().getSelectedItem().toString()))) {
+            new Alert(Alert.AlertType.INFORMATION, "Employee Added successfully").show();
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "Employee Added Fail").show();
         }
 
     }
@@ -538,9 +415,9 @@ public class HomeFormController implements Initializable {
     public void onClickActionSearchSupplier(ActionEvent actionEvent) {
         Supplier supplier = SupplierController.getInstance().searchSupplier(txtSearchSupplierId.getText());
 
-        if (supplier==null){
-            new Alert(Alert.AlertType.INFORMATION,"Please Enter Valid Employee Id").show();
-        }else {
+        if (supplier == null) {
+            new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Employee Id").show();
+        } else {
 
             txtSupplierName.setText(supplier.getName());
             txtSupplierCompany.setText(supplier.getCompany());
@@ -552,7 +429,7 @@ public class HomeFormController implements Initializable {
     }
 
     public void btnOnClickActionUpdate(ActionEvent actionEvent) {
-        if(txtSupplierName.getText()!=null && txtSupplierCompany.getText()!=null && txtSupplierEmail.getText()!=null && txtSearchSupplierId.getText()!=null) {
+        if (txtSupplierName.getText() != null && txtSupplierCompany.getText() != null && txtSupplierEmail.getText() != null && txtSearchSupplierId.getText() != null) {
             if (SupplierController.getInstance().updateSupplier(new Supplier(Integer.parseInt(txtSearchSupplierId.getText()), txtSupplierName.getText(), txtSupplierEmail.getText(), txtSupplierCompany.getText(), cmbSupplierProduct.getSelectionModel().getSelectedItem().toString()))) {
                 loadTables();
                 new Alert(Alert.AlertType.INFORMATION, "Supplier updated successfully").show();
@@ -560,14 +437,13 @@ public class HomeFormController implements Initializable {
             } else {
                 new Alert(Alert.AlertType.INFORMATION, "Supplier updated fail").show();
             }
-        }
-        else{
+        } else {
             new Alert(Alert.AlertType.INFORMATION, "Please enter All Details").show();
         }
     }
 
     public void btnonClickActionDelete(ActionEvent actionEvent) {
-        if (txtSearchSupplierId.getText()!=null) {
+        if (txtSearchSupplierId.getText() != null) {
             if (SupplierController.getInstance().deleteSupplier(txtSearchSupplierId.getText())) {
                 loadTables();
                 new Alert(Alert.AlertType.INFORMATION, "Supplier Delete successfully").show();
@@ -580,7 +456,7 @@ public class HomeFormController implements Initializable {
     }
 
     public void btnonClickActionAdd(ActionEvent actionEvent) {
-        if(txtSupplierName.getText()!=null && txtSupplierCompany.getText()!=null && txtSupplierEmail.getText()!=null && txtSearchSupplierId.getText()!=null) {
+        if (txtSupplierName.getText() != null && txtSupplierCompany.getText() != null && txtSupplierEmail.getText() != null && txtSearchSupplierId.getText() != null) {
             if (SupplierController.getInstance().addSupplier(new Supplier(0, txtSupplierName.getText(), txtSupplierEmail.getText(), txtSupplierCompany.getText(), cmbSupplierProduct.getSelectionModel().getSelectedItem().toString()))) {
                 loadTables();
                 new Alert(Alert.AlertType.INFORMATION, "Supplier added successfully").show();
@@ -588,8 +464,7 @@ public class HomeFormController implements Initializable {
             } else {
                 new Alert(Alert.AlertType.INFORMATION, "Supplier added fail").show();
             }
-        }
-        else{
+        } else {
             new Alert(Alert.AlertType.INFORMATION, "Please enter All Details").show();
         }
 
@@ -597,7 +472,7 @@ public class HomeFormController implements Initializable {
 
     public void btnOnClickActionProductDelete(ActionEvent actionEvent) {
 
-        if (txtProductId.getText()!=null) {
+        if (txtProductId.getText() != null) {
             if (ProductsController.getInstance().deleteProduct(txtProductId.getText())) {
                 loadTables();
                 new Alert(Alert.AlertType.INFORMATION, "Supplier Delete successfully").show();
@@ -611,13 +486,13 @@ public class HomeFormController implements Initializable {
     public void btnOnClickActionProductSearch(ActionEvent actionEvent) {
         Product product = ProductsController.getInstance().searchProduct(txtProductId.getText());
 
-        if (product==null){
-            new Alert(Alert.AlertType.INFORMATION,"Please Enter Valid Employee Id").show();
-        }else {
+        if (product == null) {
+            new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Employee Id").show();
+        } else {
 
             txtProductName.setText(product.getName());
-            txtProductPrice.setText(product.getPrice()+"");
-            txtProductQty.setText(product.getQty()+"");
+            txtProductPrice.setText(product.getPrice() + "");
+            txtProductQty.setText(product.getQty() + "");
             Image img = new Image(product.getImgPath());
             imgViewUpImg.setImage(img);
             cmbProductCategory.setValue(product.getCategory());
@@ -628,16 +503,15 @@ public class HomeFormController implements Initializable {
     }
 
     public void btnOnClickActionProductUpdate(ActionEvent actionEvent) {
-        if(txtProductId.getText()!=null && txtProductName.getText()!=null && txtProductQty.getText()!=null && txtProductPrice.getText()!=null) {
-            if (ProductsController.getInstance().updateProduct(new Product(Integer.parseInt(txtProductId.getText()),txtProductName.getText(),cmbProductCategory.getSelectionModel().getSelectedItem().toString(),cmbProductSize.getSelectionModel().getSelectedItem().toString(),Double.parseDouble(txtProductPrice.getText()),Integer.parseInt(txtProductQty.getText()),currentImagePath,cmbProductSupplier.getSelectionModel().getSelectedItem().toString()))) {
+        if (txtProductId.getText() != null && txtProductName.getText() != null && txtProductQty.getText() != null && txtProductPrice.getText() != null) {
+            if (ProductsController.getInstance().updateProduct(new Product(Integer.parseInt(txtProductId.getText()), txtProductName.getText(), cmbProductCategory.getSelectionModel().getSelectedItem().toString(), cmbProductSize.getSelectionModel().getSelectedItem().toString(), Double.parseDouble(txtProductPrice.getText()), Integer.parseInt(txtProductQty.getText()), currentImagePath, cmbProductSupplier.getSelectionModel().getSelectedItem().toString()))) {
                 loadTables();
                 new Alert(Alert.AlertType.INFORMATION, "Product updated successfully").show();
 
             } else {
                 new Alert(Alert.AlertType.INFORMATION, "Product updated fail").show();
             }
-        }
-        else{
+        } else {
             new Alert(Alert.AlertType.INFORMATION, "Please enter All Details").show();
         }
     }
@@ -653,8 +527,8 @@ public class HomeFormController implements Initializable {
                 JasperReport jasperReport = JasperCompileManager.compileReport(design);
 
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DBConnection.getInstance().getConnection());
-                JasperViewer.viewReport(jasperPrint,false);
-            }else {
+                JasperViewer.viewReport(jasperPrint, false);
+            } else {
                 System.out.println("Error");
             }
 

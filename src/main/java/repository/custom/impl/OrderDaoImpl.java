@@ -33,7 +33,7 @@ public class OrderDaoImpl implements OrderDao {
                 if (isAddedToOrder) {
                     boolean isAddedToOrderDetails = new ProductOrderDaoImpl().save(entity);
                     if (isAddedToOrderDetails) {
-                        boolean isUpdatedItem =  new ProductDaoImpl().save(entity);
+                        boolean isUpdatedItem =  new ProductDaoImpl().updateStock(entity);
                         if(isUpdatedItem) {
                             connection.commit();
                             return true;
