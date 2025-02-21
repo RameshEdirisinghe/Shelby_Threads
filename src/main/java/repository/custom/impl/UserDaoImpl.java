@@ -1,6 +1,7 @@
 package repository.custom.impl;
 
 import DBConnection.DBConnection;
+import Entity.EmployeeEntity;
 import Entity.UserEntity;
 import repository.custom.UserDao;
 
@@ -58,6 +59,41 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean updatePassword(String email, String newPassword) throws SQLException {
         PreparedStatement stm = DBConnection.getInstance().getConnection().prepareStatement("UPDATE user SET password = '"+newPassword+"' WHERE Email ='"+email+"'");
+        return stm.executeUpdate()>0;
+    }
+
+    @Override
+    public boolean deleteUser(String userName) throws SQLException {
+
+            PreparedStatement stm = DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM user WHERE name=?");
+            stm.setString(1, userName);
+
+            return stm.executeUpdate()>0;
+
+    }
+
+    @Override
+    public boolean addUser(EmployeeEntity employee) throws SQLException {
+
+            PreparedStatement stm = DBConnection.getInstance().getConnection().prepareStatement("Insert Into user(Name,Email,Password,Role) values (?,?,?,?)");
+            stm.setString(1,employee.getName());
+            stm.setString(2,employee.getEmail());
+            stm.setString(3,employee.getPassword());
+            stm.setString(4, "employee");
+
+            return stm.executeUpdate()>0;
+
+    }
+
+    @Override
+    public boolean updateUser(EmployeeEntity employee) throws SQLException {
+        PreparedStatement stm = DBConnection.getInstance().getConnection().prepareStatement("UPDATE user SET Name = ?, Email = ?, password = ? WHERE Name =?;");
+        stm.setString(1,employee.getName());
+        stm.setString(2,employee.getEmail());
+        stm.setString(3,employee.getPassword());
+        stm.setString(4,employee.getName());
+
+
         return stm.executeUpdate()>0;
     }
 }

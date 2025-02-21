@@ -329,7 +329,7 @@ public class HomeFormController implements Initializable {
     }
 
     public void btnOnClickActionEmpDelete(ActionEvent actionEvent) {
-        if (EmployeeController.getInstance().deleteEmployee(txtSearchEmpId.getText(), txtEmpName.getText())) {
+        if (employeeService.deletEmployee(Integer.parseInt(txtSearchEmpId.getText()))){
             loadTables();
             new Alert(Alert.AlertType.INFORMATION, "Employee Delete successfully").show();
 
@@ -340,7 +340,7 @@ public class HomeFormController implements Initializable {
     }
 
     public void btnOnClickActionEmpAdd(ActionEvent actionEvent) {
-        if (EmployeeController.getInstance().addEmployee(new Employee(0, txtEmpName.getText(), txtEmpEmail.getText(), txtEmpPassword.getText(), txtEmpCompany.getText()))) {
+        if (employeeService.addEmployee(new Employee(0, txtEmpName.getText(), txtEmpEmail.getText(), txtEmpPassword.getText(), txtEmpCompany.getText()))) {
             loadTables();
             new Alert(Alert.AlertType.INFORMATION, "Employee Added successfully").show();
 
@@ -350,7 +350,7 @@ public class HomeFormController implements Initializable {
     }
 
     public void btnOnClickActionEmpUpdate(ActionEvent actionEvent) {
-        if (EmployeeController.getInstance().updateEmployee(new Employee(Integer.parseInt(txtSearchEmpId.getText()), txtEmpName.getText(), txtEmpEmail.getText(), txtEmpPassword.getText(), txtEmpCompany.getText()))) {
+        if (employeeService.updateEmployee(new Employee(Integer.parseInt(txtSearchEmpId.getText()), txtEmpName.getText(), txtEmpEmail.getText(), txtEmpPassword.getText(), txtEmpCompany.getText()))) {
             loadTables();
             new Alert(Alert.AlertType.INFORMATION, "Employee updated successfully").show();
 

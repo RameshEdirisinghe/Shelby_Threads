@@ -159,38 +159,5 @@ public class EmployeeController {
 
     }
 
-    public boolean deleteEmployee(String empId,String name){
-//        Connection connection = DBConnection.getInstance().getConnection();
-//        try {
-//            connection.setAutoCommit(false);
-//
-//
-//            PreparedStatement stm = connection.prepareStatement("DELETE FROM employee WHERE EmployeeID=?");
-//            stm.setString(1, empId);
-//
-//            int rowsAffected = stm.executeUpdate();
-//
-//
-//            if (rowsAffected > 0) {
-//                boolean isUpdate = UserController.getInstance().deleteUser(name);
-//                if (isUpdate) {
-//                    connection.commit();
-//                    return true;
-//                }
-//            }
-//
-//            connection.rollback();
-//            return false;
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            try {
-//                connection.setAutoCommit(true);
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//
-//    }
 
 }

@@ -1,10 +1,13 @@
 package repository.custom.impl;
 
 import DBConnection.DBConnection;
+import Entity.EmployeeEntity;
+import com.google.inject.Inject;
 import controller.user.UserController;
 import model.Employee;
 import model.EmployeeSales;
 import repository.custom.EmployeeDao;
+import repository.custom.UserDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDaoImpl implements EmployeeDao {
+
+    @Inject
+    UserDao userDao;
+
     @Override
     public List<Integer> getEmpIds() throws SQLException {
         List<Integer> employeeList = new ArrayList<>();
@@ -26,39 +33,76 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public boolean save(Employee entity) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Integer s, Employee entity) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Integer s) {
+    public boolean save(EmployeeEntity entity) {
         Connection connection = DBConnection.getInstance().getConnection();
         try {
+
             connection.setAutoCommit(false);
-            ResultSet rst = connection.createStatement().executeQuery("Select name from employee WHERE EmployeeID=?");
 
-            PreparedStatement stm = connection.prepareStatement("DELETE FROM employee WHERE EmployeeID=?");
-            stm.setInt(1, s);
+            PreparedStatement stm = connection.prepareStatement("Insert Into Employee(Name,Email,company) values (?,?,?)");
+            stm.setString(1,entity.getName());
+            stm.setString(2,entity.getEmail());
+            stm.setString(3,entity.getCompany());
 
-            int rowsAffected = stm.executeUpdate();
-
-            if (rowsAffected > 0) {
-                if (rst.next()) {
-                    boolean isUpdate = UserController.getInstance().deleteUser(rst.getString(1));
-                    if (isUpdate) {
-                        connection.commit();
-                        return true;
-                    }
+            if (stm.executeUpdate()>0){
+                boolean isAdd = userDao.addUser(entity);
+                if (isAdd){
+                    connection.commit();
+                    return true;
                 }
             }
+
             connection.rollback();
             return false;
         } catch (SQLException e) {
+
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException("RollBack-Error"+ex);
+            }
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+    }
+
+    @Override
+    public boolean update(Integer s, EmployeeEntity entity) {
+
+
+        Connection connection = DBConnection.getInstance().getConnection();
+        try {
+            connection.setAutoCommit(false);
+
+            PreparedStatement stm = connection.prepareStatement("UPDATE employee SET Name = ?, Email = ?, company = ? WHERE employeeid =?;");
+            stm.setString(1,entity.getName());
+            stm.setString(2,entity.getEmail());
+            stm.setString(3,entity.getCompany());
+            stm.setInt(4,entity.getId());
+
+            if (stm.executeUpdate()>0){
+                boolean isUpdate = userDao.updateUser(entity);
+                if (isUpdate){
+                    connection.commit();
+                    return true;
+                }
+            }
+
+            connection.rollback();
+            return false;
+        } catch (SQLException e) {
+            try {
+                connection.rollback(); // Rollback on any error
+            } catch (SQLException ex) {
+                throw new RuntimeException("Rollback failed", ex);
+            }
             throw new RuntimeException(e);
         } finally {
             try {
@@ -71,12 +115,65 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public List<Employee> getAll() throws SQLException {
+    public boolean delete(Integer s) {
+        Connection connection = DBConnection.getInstance().getConnection();
+        try {
 
-        List<Employee> employeeList = new ArrayList<>();
+            String employeeName = null;
+            try (PreparedStatement selectStm = connection.prepareStatement("SELECT name FROM employee WHERE EmployeeID=?")) {
+                selectStm.setInt(1, s);
+                try (ResultSet rst = selectStm.executeQuery()) {
+                    if (rst.next()) {
+                        employeeName = rst.getString(1);
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
+            connection.setAutoCommit(false);
+
+            // Delete from the employee table
+            try (PreparedStatement deleteStm = connection.prepareStatement("DELETE FROM employee WHERE EmployeeID=?")) {
+                deleteStm.setInt(1, s);
+                int rowsAffected = deleteStm.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    // Delete related user from the user table
+                    boolean isUpdate = userDao.deleteUser(employeeName);
+                    if (isUpdate) {
+                        connection.commit(); // Commit transaction if both deletes succeed
+                        return true;
+                    }
+                }
+            }
+
+            connection.rollback(); // Rollback if user deletion fails
+            return false;
+        } catch (SQLException e) {
+            try {
+                connection.rollback(); // Rollback on any error
+            } catch (SQLException ex) {
+                throw new RuntimeException("Rollback failed", ex);
+            }
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    @Override
+    public List<EmployeeEntity> getAll() throws SQLException {
+
+        List<EmployeeEntity> employeeList = new ArrayList<>();
         ResultSet rst = DBConnection.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM Employee");
         while (rst.next()) {
-            employeeList.add(new Employee(rst.getInt(1), rst.getString(2), rst.getString(3), "null", rst.getString(4)));
+            employeeList.add(new EmployeeEntity(rst.getInt(1), rst.getString(2), rst.getString(3), "null", rst.getString(4)));
         }
         return employeeList;
     }

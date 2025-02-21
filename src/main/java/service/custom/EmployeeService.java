@@ -12,5 +12,7 @@ public interface EmployeeService {
     List<Integer> getEmpIds();
     List<EmployeeSales> getTopEmployees();
     List<Employee> getAll();
-    boolean deletEmployee();
+    boolean deletEmployee(Integer id);
+    boolean addEmployee(Employee employee);
+    boolean updateEmployee(Employee employee);
 }
