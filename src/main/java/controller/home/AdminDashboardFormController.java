@@ -384,7 +384,7 @@ public class HomeFormController implements Initializable {
         Product product = productService.searchProduct(Integer.parseInt(txtProductId.getText()));
 
         if (product == null) {
-            new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Employee Id").show();
+            new Alert(Alert.AlertType.INFORMATION, "Please Enter Valid Product Id").show();
         } else {
             loadTables();
             txtProductName.setText(product.getName());
@@ -524,7 +524,7 @@ public class HomeFormController implements Initializable {
         try {
             Injector injector = Guice.createInjector(new AppModule());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/EmployeeDashboard.fxml"));
-            loader.setController(injector.getInstance(EmployeeDashboardFormController.class));
+            loader.setControllerFactory(injector::getInstance);
             st.setScene(new Scene(loader.load()));
             st.show();
         } catch (IOException e) {

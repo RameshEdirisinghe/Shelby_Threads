@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="556.0" prefWidth="452.0" style="-fx-background-color: #1A1A1A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.cart.CartController">
+<AnchorPane prefHeight="556.0" prefWidth="452.0" style="-fx-background-color: #1A1A1A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.cart.CartFormController">
    <children>
       <Label layoutX="190.0" layoutY="14.0" text="CART" textFill="IVORY">
          <font>
