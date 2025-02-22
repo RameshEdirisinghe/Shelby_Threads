@@ -13,9 +13,12 @@ public class OrderServiceImpl implements OrderService {
     OrderDao orderDao = DaoFactory.getInstance().getDaoType(DaoType.ORDER);
 
     @Override
-    public boolean placeOrder(Order order) throws SQLException {
-        return  orderDao.save(order);
-
+    public boolean placeOrder(Order order){
+        try {
+            return  orderDao.save(order);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

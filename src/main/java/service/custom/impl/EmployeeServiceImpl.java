@@ -2,15 +2,11 @@ package service.custom.impl;
 
 import Entity.EmployeeEntity;
 import com.google.inject.Inject;
-import controller.products.ProductsController;
 import model.Employee;
 import model.EmployeeSales;
-import model.Product;
 import org.modelmapper.ModelMapper;
-import repository.DaoFactory;
 import repository.custom.EmployeeDao;
 import service.custom.EmployeeService;
-import util.DaoType;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

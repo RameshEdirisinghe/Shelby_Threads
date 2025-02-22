@@ -3,7 +3,6 @@ package controller.login;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import controller.home.HomeFormController;
 import animatefx.animation.FadeIn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -15,22 +14,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.User;
-import service.ServiceFactory;
 import service.custom.UserService;
 import util.AppModule;
-import util.ServiceType;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Properties;
-import java.util.Random;
 
 
 public class LoginFormController {
@@ -101,7 +91,7 @@ public class LoginFormController {
         try {
             if (user.getRole().equals("Admin")) {
                 Injector injector = Guice.createInjector(new AppModule());
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Home.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminDashboardForm.fxml"));
                 loader.setControllerFactory(injector::getInstance);
                 st.setScene(new Scene(loader.load()));
 

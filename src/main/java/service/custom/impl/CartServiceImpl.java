@@ -177,9 +177,13 @@ public class CartServiceImpl implements CartService {
     @Inject
     OrderDao orderDao;
     @Override
-    public String getOrderId() throws SQLException {
+    public String getOrderId(){
 
-        return orderDao.getOrderId();
+        try {
+            return orderDao.getOrderId();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

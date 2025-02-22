@@ -15,23 +15,19 @@ public class ProductOrderDaoImpl implements ProductOrderDao {
     public boolean save(Order entity) throws SQLException {
         for (CartDetails orderDetail : entity.getCartItems()) {
 
-
             String SQL = "INSERT INTO orderproduct(OrderId,ProductName,Quantity) VALUES (?,?,?)";
+            Connection connection = DBConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setInt(1, entity.getOrderId());
+            preparedStatement.setString(2, orderDetail.getProductName());
+            preparedStatement.setInt(3, orderDetail.getQty());
 
-                Connection connection = DBConnection.getInstance().getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-                preparedStatement.setInt(1, entity.getOrderId());
-                preparedStatement.setString(2, orderDetail.getProductName());
-                preparedStatement.setInt(3, orderDetail.getQty());
-
-                boolean isAdd =  preparedStatement.executeUpdate() > 0;
-                if (!isAdd){
-                    return false;
-                }
-
+            boolean isAdd = preparedStatement.executeUpdate() > 0;
+            if (!isAdd) {
+                return false;
+            }
 
         }
-
         return true;
     }
 

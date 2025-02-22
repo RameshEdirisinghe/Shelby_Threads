@@ -68,4 +68,15 @@ public class ProductServiceImpl implements ProductService {
     public boolean updateProduct(Product product) {
         return productDao.update(product.getId(),modelMapper.map(product,ProductEntity.class));
     }
+
+    @Override
+    public Product getProduct(String productName) {
+        ProductEntity productEntity = null;
+        try {
+            productEntity = productDao.searchByName(productName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return productEntity!=null?modelMapper.map(productEntity,Product.class):null;
+    }
 }

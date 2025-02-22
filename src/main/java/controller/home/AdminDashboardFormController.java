@@ -8,6 +8,7 @@ import animatefx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -38,7 +39,7 @@ import java.net.URL;
 import java.util.*;
 
 
-public class HomeFormController implements Initializable {
+public class AdminDashboardFormController implements Initializable {
     public Label lbltopic2;
     public Label lbltopic1;
     public AnchorPane lblPane1;
@@ -92,18 +93,8 @@ public class HomeFormController implements Initializable {
     public Label lblSupplierCount;
     public PieChart BestSaleProductPieChart1;
 
+
     private String currentImagePath;
-
-    private static final String URL = "jdbc:mysql://localhost:3306/shelby_threads";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "1234";
-
-    private static final String[] PIE_COLORS = {"#6c7b8b", "#8B7D6B", "#6A6A4F", "#5a6e6c"};
-
-
-    public static void setUserId(User user) {
-        String userId = user.getUserId() + "";
-    }
 
     @Inject
     HomeService homeService;

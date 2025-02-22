@@ -24,7 +24,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #1A1A1A;" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #1A1A1A;" stylesheets="@../css/Home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.home.EmployeeDashboardFormController">
    <children>
       <TabPane prefHeight="787.0" prefWidth="1534.0" style="-fx-background-color: #1A1A1A;" styleClass="mainTab" stylesheets="@../css/tabPane.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -63,7 +63,10 @@
                                                 <Font name="Cambria" size="18.0" />
                                              </font>
                                           </TextField>
-                                          <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE" />
+                                          <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font></Button>
                                        </children>
                                        <styleClass>
                                           <String fx:value="search-box" />
@@ -115,7 +118,7 @@
                                              </VBox.margin>
                                           </HBox>
                                           <HBox alignment="CENTER" prefHeight="0.0" prefWidth="334.0" />
-                                          <Button mnemonicParsing="false" onAction="#btnOnClickActionAddToCart" onMousePressed="#addToCart" prefHeight="50.0" prefWidth="270.0" styleClass="add-btn" stylesheets="@../css/style.css" text="ADD TO CART" textFill="#828282">
+                                          <Button mnemonicParsing="false" onMousePressed="#addToCart" prefHeight="50.0" prefWidth="270.0" styleClass="add-btn" stylesheets="@../css/style.css" text="ADD TO CART" textFill="#828282">
                                              <VBox.margin>
                                                 <Insets bottom="20.0" top="30.0" />
                                              </VBox.margin>
@@ -214,7 +217,7 @@
                               <Font name="Trebuchet MS Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
+                        <Label layoutX="1381.0" layoutY="55.0" text="Employee" textFill="IVORY">
                            <font>
                               <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
@@ -226,9 +229,9 @@
                                     <Insets left="20.0" right="5.0" top="10.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#btnOnClickActionProductSearch" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Search" textFill="WHITE">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="Trebuchet MS Bold" size="14.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets top="10.0" />
@@ -248,32 +251,32 @@
                         <ComboBox fx:id="cmbProductSupplier" layoutX="209.0" layoutY="354.0" prefHeight="30.0" prefWidth="318.0" promptText="Select Supplier" />
                         <Button layoutX="215.0" layoutY="499.0" mnemonicParsing="false" onAction="#btnOnClickActionAdd" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" text="Add" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                            <stylesheets>
                               <URL value="@../css/Home.css" />
                               <URL value="@../css/style.css" />
                            </stylesheets>
                         </Button>
-                        <Button layoutX="323.0" layoutY="499.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" stylesheets="@../css/style.css" text="Delete" textFill="WHITE">
+                        <Button layoutX="323.0" layoutY="499.0" mnemonicParsing="false" onAction="#btnOnClickActionProductDelete" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" stylesheets="@../css/style.css" text="Delete" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="430.0" layoutY="499.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" stylesheets="@../css/style.css" text="Update" textFill="WHITE">
+                        <Button layoutX="430.0" layoutY="499.0" mnemonicParsing="false" onAction="#btnOnClickActionProductUpdate" prefHeight="33.0" prefWidth="82.0" styleClass="search-button" stylesheets="@../css/style.css" text="Update" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                         </Button>
-                        <TableView layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0" stylesheets="@../css/table_style.css">
+                        <TableView fx:id="tblInventory" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0" stylesheets="@../css/table_style.css">
                            <columns>
-                              <TableColumn prefWidth="88.0" text="Product Id" />
-                              <TableColumn prefWidth="144.00006103515625" text="Product Name" />
-                              <TableColumn prefWidth="140.7999267578125" text="Product Category" />
-                              <TableColumn prefWidth="128.0" text="Supplier Name" />
-                              <TableColumn prefWidth="63.2000732421875" text="Size" />
-                              <TableColumn prefWidth="84.0001220703125" text="Price" />
-                              <TableColumn prefWidth="63.2000732421875" text="Stock" />
+                              <TableColumn fx:id="colProductId" prefWidth="88.0" text="Product Id" />
+                              <TableColumn fx:id="colProductName" prefWidth="144.00006103515625" text="Product Name" />
+                              <TableColumn fx:id="colProductCategory" prefWidth="140.7999267578125" text="Product Category" />
+                              <TableColumn fx:id="colProductSupplierName" prefWidth="128.0" text="Supplier Name" />
+                              <TableColumn fx:id="colProductSize" prefWidth="63.2000732421875" text="Size" />
+                              <TableColumn fx:id="colProductPrice" prefWidth="84.0001220703125" text="Price" />
+                              <TableColumn fx:id="colProductStock" prefWidth="63.2000732421875" text="Stock" />
                            </columns>
                         </TableView>
                         <TextField fx:id="txtProductQty" layoutX="370.0" layoutY="305.0" prefHeight="32.0" prefWidth="157.0" promptText="Quantity" />
@@ -291,40 +294,50 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextField layoutX="209.0" layoutY="118.0" prefHeight="32.0" prefWidth="216.0" promptText="Enter Supplier Id" />
-                        <Button layoutX="451.0" layoutY="116.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" text="Search" textFill="WHITE">
-                           <font>
-                              <Font name="Trebuchet MS Bold" size="14.0" />
-                           </font>
-                        </Button>
+                        <HBox layoutX="202.0" layoutY="99.0" prefHeight="55.0" prefWidth="338.0" styleClass="search-box" stylesheets="@../css/style.css">
+                           <children>
+                              <TextField fx:id="txtSearchSupplierId" prefHeight="32.0" prefWidth="216.0" promptText="Enter Supplier Id" styleClass="transparent">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" onAction="#onClickActionSearchSupplier" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" text="Search" textFill="WHITE">
+                                 <font>
+                                    <Font name="Trebuchet MS Bold" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
                         <Line endX="226.79998779296875" endY="-1.52587890625E-5" layoutX="310.0" layoutY="181.0" startX="-100.0" stroke="WHITE" strokeWidth="3.0" />
-                        <TextField layoutX="209.0" layoutY="204.0" prefHeight="32.0" prefWidth="320.0" promptText="Supplier Id" />
-                        <TextField layoutX="210.0" layoutY="256.0" prefHeight="32.0" prefWidth="320.0" promptText="Supplier Name" />
-                        <TextField layoutX="210.0" layoutY="312.0" prefHeight="32.0" prefWidth="320.0" promptText="Company" />
-                        <TextField layoutX="210.0" layoutY="367.0" prefHeight="32.0" prefWidth="320.0" promptText="Email" />
-                        <ComboBox layoutX="211.0" layoutY="420.0" prefHeight="30.0" prefWidth="318.0" promptText="Select Product" />
-                        <Button layoutX="425.0" layoutY="479.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" text="Update" textFill="WHITE">
+                        <TextField fx:id="txtSupplierName" layoutX="209.0" layoutY="209.0" prefHeight="32.0" prefWidth="320.0" promptText="Supplier Name" />
+                        <TextField fx:id="txtSupplierCompany" layoutX="209.0" layoutY="270.0" prefHeight="32.0" prefWidth="320.0" promptText="Company" />
+                        <TextField fx:id="txtSupplierEmail" layoutX="209.0" layoutY="328.0" prefHeight="32.0" prefWidth="320.0" promptText="Email" />
+                        <ComboBox fx:id="cmbSupplierProduct" layoutX="209.0" layoutY="388.0" prefHeight="30.0" prefWidth="318.0" promptText="Select Product" />
+                        <Button layoutX="430.0" layoutY="499.0" mnemonicParsing="false" onAction="#btnOnClickActionUpdate" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Update" textFill="WHITE">
                            <font>
                               <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="332.0" layoutY="479.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" text="Delete" textFill="WHITE">
+                        <Button layoutX="323.0" layoutY="499.0" mnemonicParsing="false" onAction="#btnonClickActionDelete" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Delete" textFill="WHITE">
                            <font>
                               <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="234.0" layoutY="479.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" text="Add" textFill="WHITE">
+                        <Button layoutX="215.0" layoutY="499.0" mnemonicParsing="false" onAction="#btnonClickActionAdd" prefHeight="33.0" prefWidth="82.0" style="-fx-background-color: #5b7355;" styleClass="search-button" stylesheets="@../css/style.css" text="Add" textFill="WHITE">
                            <font>
                               <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                         </Button>
-                        <TableView layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0" stylesheets="@../css/table_style.css">
+                        <TableView fx:id="tblSupplier" layoutX="689.0" layoutY="116.0" prefHeight="490.0" prefWidth="711.0" stylesheets="@../css/table_style.css">
                            <columns>
-                              <TableColumn prefWidth="84.800048828125" text="Supplier Id" />
-                              <TableColumn prefWidth="184.7999267578125" text="Name" />
-                              <TableColumn prefWidth="172.79998779296875" text="Company" />
-                              <TableColumn prefWidth="155.2000732421875" text="Email" />
-                              <TableColumn prefWidth="116.0001220703125" text="Item" />
+                              <TableColumn fx:id="colSupplierId" prefWidth="84.800048828125" text="Supplier Id" />
+                              <TableColumn fx:id="colSupplierName" prefWidth="184.7999267578125" text="Name" />
+                              <TableColumn fx:id="colSupplierCompany" prefWidth="172.79998779296875" text="Company" />
+                              <TableColumn fx:id="colSupilerEmail" prefWidth="155.2000732421875" text="Email" />
+                              <TableColumn fx:id="colSupplierItem" prefWidth="116.0001220703125" text="Item" />
                            </columns>
                         </TableView>
                         <Label layoutX="1263.0" layoutY="25.0" text="\@ShelbyThreads" textFill="IVORY">
@@ -332,9 +345,9 @@
                               <Font name="Trebuchet MS Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="1403.0" layoutY="57.0" text="Admin" textFill="IVORY">
+                        <Label layoutX="1381.0" layoutY="55.0" text="Employee" textFill="IVORY">
                            <font>
-                              <Font name="Trebuchet MS" size="14.0" />
+                              <Font name="Trebuchet MS Bold" size="14.0" />
                            </font>
                         </Label>
                      </children>

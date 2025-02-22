@@ -40,6 +40,15 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public ProductEntity searchByName(String productName) throws SQLException {
+        ResultSet rst = DBConnection.getInstance().getConnection().createStatement().executeQuery("SELECT * FROM Product where ProductName='"+productName+"'");
+        while (rst.next()) {
+            return new ProductEntity(rst.getInt(1),rst.getString(2), rst.getString(3),rst.getString(4), rst.getDouble(5),rst.getInt(6), rst.getString(7), rst.getString(8) );
+        }
+        return null;
+    }
+
+    @Override
     public boolean save(ProductEntity entity) throws SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         try {

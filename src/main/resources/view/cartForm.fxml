@@ -25,9 +25,9 @@
       <Line endX="235.19998168945312" endY="-7.62939453125E-6" layoutX="180.0" layoutY="56.0" startX="-152.0" startY="-3.814697265625E-6" stroke="IVORY" />
       <TableView fx:id="tblCart" layoutX="28.0" layoutY="115.0" prefHeight="204.0" prefWidth="386.0" style="-fx-background-color: #fffff0;">
         <columns>
-          <TableColumn fx:id="colProductName" prefWidth="124.79999351501465" text="Product Name" />
+          <TableColumn fx:id="colCartProductName" prefWidth="124.79999351501465" text="Product Name" />
           <TableColumn fx:id="colProductQty" prefWidth="129.5999755859375" text="Product Qty" />
-            <TableColumn fx:id="colProductPrice" prefWidth="132.800048828125" text="Unit Price" />
+            <TableColumn fx:id="colCartProductPrice" prefWidth="132.800048828125" text="Unit Price" />
         </columns>
       </TableView>
       <Label layoutX="280.0" layoutY="331.0" text="Total :" textFill="IVORY">

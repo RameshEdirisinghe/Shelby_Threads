@@ -12,5 +12,6 @@ public interface ProductService extends SuperService {
     boolean deleteProduct(Integer productId);
     Product searchProduct(Integer productId);
     boolean updateProduct(Product product);
+    Product getProduct(String productName);
 
 }
